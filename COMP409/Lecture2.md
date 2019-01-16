@@ -67,7 +67,7 @@ Consider the case where x = y = z = 0, and where
 * Thread 1 executes x = y + z
 * Thread 2 executes y = 1, z = 2
 
-What is x in the end?
+What is x in the end? <br>
 1.
     * T0: y + z
     * T1: y = 1
