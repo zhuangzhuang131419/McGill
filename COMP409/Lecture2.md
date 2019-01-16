@@ -125,9 +125,9 @@ Usually
 * 64-types (long, double, etc) are not necessarily atomic; can be declared as **volatile** then 64-bits R/W is atomic
 
 ---
-$$x$$ = $$y+z+w/q$$
+x = y+z+w/q
 * If all these variables are local/unshared, no one care about atomic.
-* No one can see  an alter on $$x$$, $$y$$, $$w$$, $$q$$
+* No one can see  an alter on x, y, w, q
 * Effective atomic
 
 ---
@@ -140,16 +140,20 @@ We can generalize:
         2. *expr* has no C.R. (in which case x can be read by another thread)
 *  A statement that has AMO appears atomic.
 ---
+### Example
+1. x = y = 0 
 
-Example:
-1. x = y = 0
-T1: x = y + 1 ( y is C.R.; AMO )
-T2: y = y + 1 ( y is not C.R.; AMO(condition 2) )
+* Thread 1 | Thread 2
+  --- | ---
+  x = y + 1 | y = y + 1
+  1 CR, x not read | 0 CR, y is read
+
+* As AMO is satisfied in both cases, there are no unexpected values to be considered. The process will happen with one expression before the other without interleaving
 
 2. x = y = 0
-T1: x = y + 1 ( y is C.R.; not AMO)
-T2: y = x + 1 (x is C.R.; not AMO)
-
-
-
-
+* Thread 1 | Thread 2
+  --- | ---
+  x = y + 1 | y = x + 1
+  1 CR, x is read | 1 CR, y is read
+  load r1, [y]<br>inc r1<br>str r1, [x] | load r1, [x]<br>inc r1<br>str r1, [y]
+* Neither satisfy AMO, so there may be interleaving (eg resulting in x = 1, y = 1)
