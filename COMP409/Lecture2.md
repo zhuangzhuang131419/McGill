@@ -135,8 +135,8 @@ x = y+z+w/q
 We can generalize:
 * Let '$$x$$ = *expr*’ be a statement, where x is a word-sized variable, and expr is an expression.
 * Define: *expr* has a **critical reference** if it uses variables that occurr in another thread.
-* Define: ‘$$x$$-*expr*’ has an At-Most-Once(AMO) property if either:
-        1. *expr* has exactly 1 C.R. and x is not read by another thread. 
+* Define: ‘x-*expr*’ has an At-Most-Once(AMO) property if either: <br>
+        1. *expr* has exactly 1 C.R. and x is not read by another thread. <br>
         2. *expr* has no C.R. (in which case x can be read by another thread)
 *  A statement that has AMO appears atomic.
 ---
