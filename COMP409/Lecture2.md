@@ -68,17 +68,17 @@ Consider the case where x = y = z = 0, and where
 * Thread 2 executes y = 1, z = 2
 
 What is x in the end? <br>
-1.
+1. <br>
     * T0: y + z
     * T1: y = 1
     * T1: z = 2
     &rarr; x = 0
-2.
+2. <br>
     * T1: y = 1
     * T1: z = 2
     * T0: x = y + z
     &rarr; x = 3
-3.
+3. <br>
     * T1: y = 1
     * T0: x = y + z
     * T1: z = 2
