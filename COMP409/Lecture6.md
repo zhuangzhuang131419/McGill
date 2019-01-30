@@ -127,6 +127,8 @@ CAS(x, a, b) {
 enter(int id) {
     Node me = new Node();
     me.next = null;
+    
+    // 使自己的结点成为队列的尾部，同时返回一个指向pred的引用
     Node pred = TS(tail, me);
     if (pred != null) { // 前一个在critical section
         me.locked = true;
@@ -173,7 +175,7 @@ class Thread {
 enter(int id) {
     me.locked = true;        // signifies to others that they should be locked
     myPred = TS(tail, me);
-    while (myPred.locked);   // spin
+    while (myPred.locked);   // 注意：这里是让myPredspin
 }
 
 exit(int id) {
@@ -197,6 +199,3 @@ exit(int id) {
     3. Deep recursive locking
     4. Shollow contention(looked but no other thread waiting)
     5. Deep contention
-
-
-
