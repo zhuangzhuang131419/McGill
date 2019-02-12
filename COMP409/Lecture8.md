@@ -136,7 +136,7 @@ Solutions
 
 ---
 
-Single Global Mutex
+1.Single Global Mutex
 
 ```java
 think()
@@ -149,7 +149,7 @@ Works, but not very concurrent
 
 ---
 
-Mutex per Utensil
+2.Mutex per Utensil
 
 c = mutex[5]
 
@@ -165,7 +165,7 @@ Doesn't actually work. If everyone tries to grab left utensil, no one will be ab
 
 ---
 
-Create Global Lock
+3.Create Global Lock
 
 ```java
 lock = mutex // global lock
@@ -186,7 +186,40 @@ If philosopher 1 eats, and philosopher 2 attempts to eat, philosopher 2 will hol
 
 ---
 
-Order the Locks
+4.Randomise Lock
+```java
+P(lock)
+if (rand() % 2 == 0) {
+    P(c[i]);
+    P(c[(i + 1) % 5]);
+} else {
+    P(c[(i + 1) % 5]);
+    P(c[i]);
+}
+V(lock)
+eat();
+V(c[i]);
+V(c[(i + 1) % 5];
+```
+deadlock less likely
+
+5.Allow only 4 philosophers to sit to the table at the same time.
+```java
+int seats = 4;
+P(seats); // 现在可以有四个人同时进入
+P(c[i]);
+P(c[i + 1] % 5);
+eat();
+V(c[i + 1] % 5);
+V(c[i]);
+V(seats);
+
+6.Acquire & Release
+    * We can detect lock failure
+
+7.Ordering Resource
+* Partial order: acquire mutiple resource must respect order
+* this also breaks the dependency cycle
 
 ```java
 think()
