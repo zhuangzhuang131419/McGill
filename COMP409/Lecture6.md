@@ -113,6 +113,7 @@ CAS(x, a, b) {
 * 2 different queue locks
     * MCS
     * CLH
+    * MCS与CLH不同的是，锁链表是显示的而不是虚拟的，整个链表通过QNode对象里的next所体现
 * Works for arbitrary # of threads
 * Maintains explicit queue
     ```java
@@ -199,3 +200,6 @@ exit(int id) {
     3. Deep recursive locking
     4. Shollow contention(looked but no other thread waiting)
     5. Deep contention
+
+
+
