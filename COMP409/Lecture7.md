@@ -121,6 +121,8 @@ Drawbacks
     * Java是用大括号括起来锁住的，就不会忘记
 
 ## Monitors
+* ADT
+    * shared data as private variable synchronized method, R/W can only happen through monitor 
 
 * Dijkstra, Per Brinch Hansen
     * Package data and Operations are mutually-exclusive
@@ -157,33 +159,48 @@ A: We can think of that `2 queues` association with monitor
 * Each CV implies another queue &rarr; cvq
 
 atomic ops
+* mq &rarr; all the threads trying to acquire a lock
+* cq &rarr; all threads waiting on a conditional variable
 
 ```java
 enter T:
-    // if no one is in lock
-    //    enter
-    // else
-    //    add T to myqueue(mq) & sleep
+    // while (anyone else in monitor) {
+    //   add T to mq & put T to sleep
+    // }
 
 exit (T) {
-    // wake up thread in mq 
+    // take a thread out of mq & wake it up
 }
     
 wait (T cvq) {
     // add T to condition variable queue(cvq)
-    // sleep
-    // exit
+    // relax monitor & wake it up
 }
 
-
-notify cvq:
-    take a thread from cvq & put to mq
-
-notifyAll cvq:
-    move all threads from cvq to mq
+notify() {
+    // take a thread from cq & put to mq
+}
+   
+notifyAll() {
+    // move all threads from cvq to mq
+}
+    
 ```
 
 * Notice that we wake one thread with `notify()`
 * Upon being woken up, conditions may not hold; hence conditions should be checked again (typically with while loop)
 * Spurious wakeups - may be woken up without being notified
     * Also solved by waiting in a while loop
+
+## Different semantics for CV
+* Signal & Continue
+    * Notifier retains control of monitor
+    * Woken thread competes with other threads for entry
+* Signal & Wait
+    * Notifier transfers monitor control to the woken thread
+    * Notifier needs to re-acquire lock to continue
+* Signal & Urgent Wait
+    * Same as signal & wait, except a woken thread will give control back to the notifier once finished
+* Reader/Writer Lock
+    * DB context - only 1 write at a time
+    * Multiple concurrent readers
