@@ -2,7 +2,7 @@
 ### Bakery Algorithm
 * Broken ticket dispenser
 
-```
+```Java
 init() {
     turn[id] = 0;
 }
