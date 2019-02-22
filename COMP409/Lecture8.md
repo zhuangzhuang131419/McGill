@@ -199,6 +199,7 @@ eat();
 V(c[i + 1] % 5);
 V(c[i]);
 V(seats);
+```
 
 6.Acquire & Release
     * We can detect lock failure
