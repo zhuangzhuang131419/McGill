@@ -143,9 +143,3 @@ What we are looking for
     * Threads may be created by subclassing thread to run what we want
     * By creating a runnable object and passing it to the thread constructor.
 * Typically the latter is used; the former is if you wish to change the behaviour of threads, not just the code it runs.
-* Program stops when all threads are finished
-* Subtlety - program exists when all non-daemon threads (default) finish
-    * Daemon threads are intended as services, and terminate automatically when appropriate
-* A thread that has been started may not necessarily be running - OS may choose to switch it to a scheduled or de-scheduled state
-* Threads may also sleep, which goes to a waiting mode, or be woken up
-* Threads may be terminated, leading to a stopped mode
