@@ -1,6 +1,8 @@
 # Lecture 7. 2018/01/31
 ## Java's Locks (synchronous)
 * 如果我们把monitor_enter/monitor_exit看成是Fat Lock方式，则可以把Thin Lock看成是一种基于CAS（Compare and Swap）的简易实现。
+* 而基于CAS方式的实现，线程进入竞争状态的，获得锁的线程，会让其他线程处于自旋状态（也称之为Spin Mode，即自旋），这是一种while(Lock_release) doStuff()的Busy-Wait方式，是一种耗CPU的方式；而Fat Lock方式下，一个线程获得锁的时候，其他线程可以先sleep，等锁释放后，再唤醒（Notify）。
+* CAS的优点是快，如果没有线程竞争的情况下，因为CAS只需要一个指令便获得锁，所以称之为Thin Lock，缺点也是很明显的，即如果频繁发生线程竞争，CAS是低效，主要表现为，排斥在锁之外的线程是Busy Wait状态；而monitor_enter/monitor_exit/monitor_notify方式，则是重量级的，在线程产生竞争的时候，Fat Lock在OS mutex方式下，可以实现no busy-wait。
 * "Thin" Lock (Bacon lock)
     * Optimized lock, contention is rare
     * Each object has lock word
