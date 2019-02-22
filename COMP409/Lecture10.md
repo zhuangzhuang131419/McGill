@@ -130,7 +130,7 @@ CAS(x, a, b) {
 ```java
 int decide (int v):
     x = TS(decider, v) // x is old value
-    if (x == bottom) { // bottom is the value set by first thread
+    if (x == bottom) { // bottom is the value not in the input
         return v;
     }
     return x;
