@@ -57,6 +57,9 @@ If sequential correctness depends on proper stack operation &rarr; assume every 
 
 ## Memory models
 
+Memory consistency 
+* define which write can be seen by which reads -> order properties
+
 T0 | T1
 --- | ---
 x = 1 | y = 2
@@ -89,8 +92,13 @@ As a result, with buffering, we can have (0, 0).
 &therefore; we cannot just think of interleavings
 
 * Model types
-    * Strict consistency - operations necessarily follow program order (intra-threads)
-    * Sequential Consistency (SC) - operations appear to execute in program order
+    * Strict consistency (内存一致性模型)
+        * operations necessarily follow program order (intra-threads)
+        * 但是线性一致性太难实现了，因为这里需要一个全局同步的时钟
+    * Sequential Consistency (SC) (顺序一致性模型)
+        * 这里全局的时钟变得不再需要，转而需要的是各个处理器局部的时钟，
+        * more pratical in pratice
+        * operations appear to execute in program order
     * Both cases result in a global timeline for operations
 
 * Coherence
