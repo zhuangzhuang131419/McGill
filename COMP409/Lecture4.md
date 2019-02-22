@@ -46,7 +46,8 @@
 ## Java's Thread Model
 * Priority based
 * Nominatively priority-preemptive
-* Threads at highest level is executed in preference
+    * nominatively: not much is formally guaranteed
+    * preemptive: threads at highest level is executed in preference
 * For threads of same priority, should run with round robin time slices (but not guaranteed)
 * If higher priority thread disappear or sleep, then lower priority thread start.
 * eg. high priority: A B C
@@ -68,7 +69,7 @@
 | Thread API | |
 ---|---
 `sleep(millis)` | **Lower bound** idle time; 不释放锁
-`yield()` | Give up time slice; OS can ignore it, no guarantee other thread will execute
+`yield()` | Give up time slice; OS can ignore it, no guarantee other thread will execute; 当一个线程使用过这个方法后，它就会把CPU执行时间让掉，让**自己**或者其他线程运行
 `Thread.currentThread()` | Get reference to current thread
 `isAlive()` | returns `true` if thread could be scheduled. Always true if called on self (as it wouldn't be callable otherwise). If called on another thread, returns stale information on live state
 `join()` | Wait for another thread to finish before continuing
@@ -121,8 +122,10 @@ synchronized(lock) {
 ## Race conditions
 * Atomicity problem 
     * 由于两个线程里的操作不是atomic，会发生interleave.
+    * eg. x++;
 * Non-determine problem
     * 已经保证了两个线程里的是atomic，但结果任然无法确定。(Depends on thread speed)
+    * It's not a mistake. It's more like an error of concurrent programming.
 * Why do we do care about data-races. (Race condition)
     * Data race — **BAD!** We want to avoid.
     * A data-race in a Multithread program occurs when 2 threads access the same memory location with `no ordering constrains` such that at least one of them is a write.
