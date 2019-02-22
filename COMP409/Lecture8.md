@@ -2,20 +2,6 @@
 In Java concurrency, every synchronized block has a single unnamed "conditional variable" (Access to C.V in Java is with Object.wait() and Object.notify() )
 * While 和 wait() 搭配使用
     * wait() 释放锁
-
-## Different semantics for CV
-* Signal & Continue
-    * Notifier retains control of monitor
-    * Woken thread competes with other threads for entry
-* Signal & Wait
-    * Notifier transfers monitor control to the woken thread
-    * Notifier needs to re-acquire lock to continue
-* Signal & Urgent Wait
-    * Same as signal & wait, except a woken thread will give control back to the notifier once finished
-* Reader/Writer Lock
-    * DB context - only 1 write at a time
-    * Multiple concurrent readers
-
 ---
 Readers & Writers
 Large database: 
