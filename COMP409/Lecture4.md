@@ -25,6 +25,7 @@
 * Which way should we choose?
     * extend Thread &rarr; change thread behaviour
     * implement Runnable &rarr; for code to execute in a Thread
+* A thread that has been started may not necessarily be running - OS may choose to switch it to a scheduled or de-scheduled state
 
 ## How does a multithread program end?
 * Sequence program 
@@ -36,6 +37,8 @@
 * Actually, all non-daemon thread must finish
     * Daemon(后台程序) & non-daemon thread(default)
         * Daemon threads act like services, which do not keep the program alive. 
+* Threads may also sleep, which goes to a waiting mode, or be woken up
+* Threads may be terminated, leading to a stopped mode
 ## 线程的各个state
 * 见iPad
 * More threads will be ready to execute &rarr; then we have CPU
