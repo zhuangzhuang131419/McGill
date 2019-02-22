@@ -202,7 +202,7 @@ V(seats);
 ```
 
 6.Acquire & Release
-    * We can detect lock failure
+* We can detect lock failure
 
 7.Ordering Resource
 * Partial order: acquire mutiple resource must respect order
