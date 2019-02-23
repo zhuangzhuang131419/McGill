@@ -69,7 +69,7 @@ enter(int id) {
             spin = false; 
             for (int j = 0; j < n; j++) { // through other threads
                 if (j == id) { continue; } // if it is myself, continue
-                if (stage[j] >= i && waiting[s] == id) {
+                if (stage[j] >= i && waiting[i] == id) {
                     spin = true; // 被过滤掉了，无法离开这个do-while循环
                     break; // from for loop
                 }
