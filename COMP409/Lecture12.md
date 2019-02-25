@@ -1,3 +1,4 @@
+# Lecture 12. 2018/02/21
 Intel/AMD
 * Memory management implied in the hardware manual
 * White paper
