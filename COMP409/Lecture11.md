@@ -1,4 +1,4 @@
-# Lecture 11. 2018/02/20
+# Lecture 11. 2018/02/19
 ## Processes and Synchronization:  Scheduling Policies and Fairness
 [Reference Website](http://www.it.uom.gr/teaching/distrubutedSite/cisumassd/chap02/chap02_20.html)
 * A `scheduling policy` decides which of the eligible atomic actions will be excuted next
