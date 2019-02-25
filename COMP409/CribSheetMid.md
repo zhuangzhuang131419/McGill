@@ -1497,16 +1497,11 @@ CAS(x, a, b) {
 
 testlock = 0;
 TS(x, y) {
-    bool rc;
     while (CAS(testlock, 1, 1)); // spin
-    if (x == y) {
-        rc = true;
-        x = y;
-    } else {
-        rc = false;
-    }
+    temp = x;
+    x = y;
     testlock = 0;
-    return rc;
+    return temp;
 }
 ```
 * CAS original - fixed amount of time to execute (wait free)
