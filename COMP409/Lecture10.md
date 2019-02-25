@@ -82,6 +82,20 @@ CAS(x, a, b) {
     caslock = 0;
     return rc;
 }
+
+testlock = 0;
+TS(x, y) {
+    bool rc;
+    while (CAS(testlock, 1, 1)); // spin
+    if (x == y) {
+        rc = true;
+        x = y;
+    } else {
+        rc = false;
+    }
+    testlock = 0;
+    return rc;
+}
 ```
 * CAS original - fixed amount of time to execute (wait free)
 * Simulate CAS - spins &rarr; may have a finite cost, potentially indefinitely
