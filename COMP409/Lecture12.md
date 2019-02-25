@@ -84,11 +84,3 @@ So Intel fixed the documents
           | Up | &tau;q |
 
             * Without lock, p can begin increment, q can set to 7, and p can increment the new value by 1 &rarr; 8
-        * spinlock
-            * Address of lock is eax
-            * Start: Lock : Dec[eax]
-              JNS : enter (jump no sign)
-            * Spin: CMP[eax], 0
-              JLE : spin
-              JMP start (jump)
-            * Exit : MOV[eax], 1
