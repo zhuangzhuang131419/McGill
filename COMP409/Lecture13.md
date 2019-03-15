@@ -18,8 +18,8 @@
     * OK -> Coherence is a ‘lower bound’ on programmability 
 * eg. 
     * int i = p.x;                  int i = p.x;
-    * int j = q.x;  == Optimize ==> int j = q.x;
-    * int h = p.x;                  int h = i;
+    * int j = q.x;                  int j = q.x;
+    * int h = p.x;  == Optimize ==> int h = i;
     * But suppose p&q are the same object and another thread set p.x = 1; 
     * And when i = 0, j = 1, if we set h to i, that is 0, it is no longer coherence. So this optimization is not allowed!
 ---
