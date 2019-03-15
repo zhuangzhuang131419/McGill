@@ -86,6 +86,7 @@ if (i < 2) { // i must be 0 or 1
     * Somebody make progress 
     * Avoid locking
     * Guarantee that infinitely often SOME method calls finish, in a finite # of steps.
+    * 在一系列访问 Lock-Free操作的线程中，如果某一个线程被挂起，那么其绝对不会阻止其他线程继续运行（Non-Blocking）。
 * Locking(blocking) is expensive. 
     1) OS schedule is involved
     2) Use spin-locks(by using CAS, TS, etc…)
@@ -145,6 +146,7 @@ BUG:
 * LL/SC
     * Load-Linked, State-Conditional 
     * 2 operations that let us construct tests to ensure a memory address has not been written(even with the exactly same value) 
+    * In computer science, load-link and store-conditional (LL/SC) are a pair of instructions used in multithreading to achieve synchronization. Load-link returns the current value of a memory location, while a subsequent store-conditional to the same memory location will store a new value only if no updates have occurred to that location since the load-link. 
 * LL/SL
     * Not Intel 
     * PPC, ARM, Alpha... 
@@ -178,5 +180,5 @@ redoit:
     1) Someone else does LL/SL
     2) x is written Now, if we use LL/SC, instead of CAS in our stack, NO ABA problem 
 ---
-JAVA does not give an LL/SC 
-If we used CAS on a ‘wider value’ <TOS, #version> AtomicStampedReference
+* JAVA does not give an LL/SC. 
+* If we used CAS on a ‘wider value’ <TOS, #version> AtomicStampedReference
