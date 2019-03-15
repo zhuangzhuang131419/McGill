@@ -33,7 +33,8 @@
     1. Correctly synchronized program 
         * Contains NO data races.
         * Then you can assume sequential consistency(great for programmers)
-    2. Incorrectly-synchronized program Contains at least one data-race A more complet semantics 
+    2. Incorrectly-synchronized program Contains at least one data-race 
+        * A more complet semantics 
         * Start with the orderings 
         * x = 1 -> y = 2 -> a = x -> b = y -> c = 3 
             * Intra-thread ordering follows your program order.
