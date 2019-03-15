@@ -81,7 +81,7 @@ if (i < 2) { // i must be 0 or 1
     * must finish in finite time
     * fault tolerant
 * ‘lock-free’
-    * ![Lock Free Definition](LockFreeDefine.png)
+    * ![Lock Free Definition](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/LookFreeDefine.png)
     * 一个Lock free的程序能够确保执行它的所有线程中至少有一个能够继续往下执行。
     * Somebody make progress 
     * Avoid locking
