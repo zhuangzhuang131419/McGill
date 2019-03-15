@@ -81,6 +81,8 @@ if (i < 2) { // i must be 0 or 1
     * must finish in finite time
     * fault tolerant
 * ‘lock-free’
+    * ![Definition](LockFreeDefine.png)
+    * 一个Lock free的程序能够确保执行它的所有线程中至少有一个能够继续往下执行。
     * Somebody make progress 
     * Avoid locking
     * Guarantee that infinitely often SOME method calls finish, in a finite # of steps.
