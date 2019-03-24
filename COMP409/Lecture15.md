@@ -114,21 +114,24 @@ tryRemove(Node n, Node prev):
 
 Now we have deleted things left in the list, we need to clean up
 ```Java
-
+// H->''->''->''->T
 find(int data) {
     while(true) {
-        pred = H
-        curr = pred.next
-        while (curr != T) { @restart
-            succ = curr.next
+        pred = H;
+        curr = pred.next;
+        while (curr != T) { // restart
+            succ = curr.next;
             while (curr.marked) {
-                if !CAS(pred.next, curr to false, succ to false):
-                    continue@restart
-                curr = succ
-                succ = curr.next
+                // 确保pred没有被mark
+                if (!CAS(<pred.next, marked>, <curr, false>, <succ, false>) {
+                    continue; // restart
+                }
+                curr = succ;
+                succ = curr.next;
             }
-            if curr.data == data:
-                return curr
+            if (curr.data == data) {
+                return curr;
+            }
             pred = curr;
             curr = succ;
         }
