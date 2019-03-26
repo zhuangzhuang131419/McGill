@@ -1,6 +1,6 @@
 # Lecture 14. 2018/03/12
 
-##JVM
+## JVM
 * Happen before - consistency
 * caused cycle
     * out of thin-air
@@ -12,13 +12,9 @@
 * eg.
 ```Java
     x = y = o
-    T0:
-    r1 = x;
-    y = 1;
-    
-    T1:
-    r2 = y;
-    x = 1;
+    T0:             T1:
+    r1 = x;         r2 = y;
+    y = 1;          x = 1;
 ```
 Can we get r1 == r2 == 1? Yes!
 
