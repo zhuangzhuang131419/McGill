@@ -11,6 +11,7 @@
         * No, we do not need this.
 ### What about Java?
 * Languages always come up with a memory model.
+* 内存模型解决并发问题主要采用两种方式：**限制处理器优化**和**使用内存屏障**。
 * Java has a memory model —> JMM Old model is complex and ill-defined.
     * Global memory -> working memory -> execution engine -> W.M. -> G.M.
 * It was stronger: coherence 
@@ -111,7 +112,8 @@ So r1 in above figure can se either 0 or 1.
     * r1 comes from x 
     * x can see x = 0 and x = r2 
     * r2 comes from y 
-Finally we get: y comes from y, x comes from x. HB-consistency do NOT forbid this. But this is NOT good.
+
+* Finally we get: y comes from y, x comes from x. HB-consistency do NOT forbid this. But this is NOT good.
 
 * Can we forbid this out of thin air value? 
 * We had a causal cycle: y was caused by y, x was caused by x.
