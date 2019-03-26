@@ -143,6 +143,7 @@ BUG:
     * Load-Linked, State-Conditional 
     * 2 operations that let us construct tests to ensure a memory address has not been written(even with the exactly same value) 
     * In computer science, load-link and store-conditional (LL/SC) are a pair of instructions used in multithreading to achieve synchronization. Load-link returns the current value of a memory location, while a subsequent store-conditional to the same memory location will store a new value only if no updates have occurred to that location since the load-link. 
+    * Load-link返回内存位置处的当前值，随后的store-conditional在该内存位置处保存新值（如果从load-link后没有被修改）。
 * LL/SL
     * Not Intel 
     * PPC, ARM, Alpha... 
