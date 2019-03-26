@@ -172,7 +172,7 @@ redoit:
     bne redoit
     // redoit if reservation failed
 ```
-reservation disappear if
+* reservation disappear if
     1) Someone else does LL/SL
     2) x is written Now, if we use LL/SC, instead of CAS in our stack, NO ABA problem 
 ---
