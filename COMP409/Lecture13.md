@@ -11,6 +11,7 @@
         * No, we do not need this.
 ### What about Java?
 * Languages always come up with a memory model.
+* 内存模型解决并发问题主要采用两种方式：**限制处理器优化**和**使用内存屏障**。
 * Java has a memory model —> JMM Old model is complex and ill-defined.
     * Global memory -> working memory -> execution engine -> W.M. -> G.M.
 * It was stronger: coherence 
@@ -24,6 +25,7 @@
     * And when i = 0, j = 1, if we set h to i, that is 0, it is no longer coherence. So this optimization is not allowed!
 ---
 * The new JMM 
+    * ![JavaMemoryModel](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/JavaMemoryModel.png)
     * JMM决定一个线程对共享变量的写入何时对另一个线程可见
     * 线程之间的共享变量储存在主内存(main memory)中，每个线程都有一个私有的本地内存(local memory)，本地内存中储存了该线程以读/写共享变量的副本。
     * Tries to solve 2 problems
@@ -111,7 +113,8 @@ So r1 in above figure can se either 0 or 1.
     * r1 comes from x 
     * x can see x = 0 and x = r2 
     * r2 comes from y 
-Finally we get: y comes from y, x comes from x. HB-consistency do NOT forbid this. But this is NOT good.
+
+* Finally we get: y comes from y, x comes from x. HB-consistency do NOT forbid this. But this is NOT good.
 
 * Can we forbid this out of thin air value? 
 * We had a causal cycle: y was caused by y, x was caused by x.
