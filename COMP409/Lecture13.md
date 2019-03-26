@@ -25,6 +25,7 @@
     * And when i = 0, j = 1, if we set h to i, that is 0, it is no longer coherence. So this optimization is not allowed!
 ---
 * The new JMM 
+    * ![JavaMemoryModel](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/JavaMemoryModel.png)
     * JMM决定一个线程对共享变量的写入何时对另一个线程可见
     * 线程之间的共享变量储存在主内存(main memory)中，每个线程都有一个私有的本地内存(local memory)，本地内存中储存了该线程以读/写共享变量的副本。
     * Tries to solve 2 problems
