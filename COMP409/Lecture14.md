@@ -11,7 +11,7 @@
  
 * eg.
 ```Java
-    x = y = o
+    x = y = 0;
     T0:             T1:
     r1 = x;         r2 = y;
     y = 1;          x = 1;
@@ -44,8 +44,8 @@ Can we get r1 == r2 == 1? Yes!
 * No data-race! 
 * It is race-free by divergence, we never executes the writes to x and y
 
-##JMM:
-* H.B.-graph
+## JMM:
+* H.B.- graph
     * Runtime execution 
     * Intra-thread order 
     * Sync-order 
@@ -172,7 +172,7 @@ redoit:
     bne redoit
     // redoit if reservation failed
 ```
--> reservation disappear if
+reservation disappear if
     1) Someone else does LL/SL
     2) x is written Now, if we use LL/SC, instead of CAS in our stack, NO ABA problem 
 ---
