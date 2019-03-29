@@ -3,7 +3,7 @@
 produce() {
     atomic {
         if (g.full()) {
-            retry;
+            retry; // 与wait()方法或者显示的条件变量不同，retry并不是简单地让出它自己，从而丢失唤醒故障
             q.add(data);
         }
     }
