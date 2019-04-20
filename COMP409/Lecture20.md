@@ -24,8 +24,7 @@
 * eg.为什么要用choice
     * A::B?x -> Q1
     * A::C?x -> Q2
-    * C::A!7||A::B?x &rarr; Q1; C?y &rarr; Q2 
-    * `stuck!!` A 不知道要接受哪一个
+    * `stuck!!` A 不知道要接受哪一个 (non-determine)
 * eg. [] 在一个process加一个方块
     * A::B?x -> Q1 []
     * A::C?x -> Q2
