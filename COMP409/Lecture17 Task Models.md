@@ -4,7 +4,6 @@
 * It assumes a global memory address space that is logically partitioned and a portion of it is local to each process, thread, or processing element.
 
 * Various parallel models
-    * 
         * Chapel
         * Titanium
         * UPC++
