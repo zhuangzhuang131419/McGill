@@ -1,4 +1,4 @@
-# Lecture 20. 2018/04/02
+# Lecture 20. 04/02 Process Algebra
 ### Two Basic Operations
 * P || Q parallel composition
     * eg. P::Q!3||Q::P?3  P给Q发送，Q从P接受
