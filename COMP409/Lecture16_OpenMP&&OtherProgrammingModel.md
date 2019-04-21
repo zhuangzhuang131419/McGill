@@ -1,4 +1,4 @@
-# Lecture 16. 2018/03/19
+# Lecture 16. 03.19 OpenMP && Other Programming Model
 ### Lock Free
 * Lock Free algorithms are problematic in the way that references from deallocated objects may be resued unknowingly
 
