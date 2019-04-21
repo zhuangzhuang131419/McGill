@@ -66,9 +66,9 @@
 ## Multi Buffer
 ### Ordered Buffer
 * `Producer` -> `Buffer` -> `Consumer`
-    * P:B!produce() -> P
-    * C:B?x;consume(x);c
-    * B:P?x->C!x;B
+    * P::B!produce() -> P
+    * C::B?x;consume(x);c
+    * B::P?x->C!x;B
     * P->B1->B2->C
     * P::B1!produce();P
     * C::B2?x;consume(x);C
