@@ -1,4 +1,4 @@
-# Lecture 19. 2018/03/28
+# Lecture 19. 2018/03/28 Message Passing and Process Algebra
 ```java
 produce() {
     atomic {
