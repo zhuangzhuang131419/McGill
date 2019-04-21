@@ -1,4 +1,4 @@
-# Lecture 18. 2018/03/26
+# Lecture 18. 03.26 Transaction Memory
 ## Last Time
 * PGAS
     * X10
