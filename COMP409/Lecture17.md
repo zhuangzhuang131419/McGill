@@ -1,4 +1,4 @@
-# Lecture 17. 2018/03/21
+# Lecture 17. 03.21 Task Models
 ## PGAS
 * partitioned global address space(PGAS) is a parallel programming model
 * It assumes a global memory address space that is logically partitioned and a portion of it is local to each process, thread, or processing element.
