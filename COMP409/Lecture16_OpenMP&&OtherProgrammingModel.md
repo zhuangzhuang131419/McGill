@@ -197,8 +197,8 @@ Synchronization
     * commits any pending writes
     * invalidates cached copies
     * rules
-        * if intersection of 2 flush sets is non-empty, flushes must be sseen in same order by everyone
-        * if thread redds, writes, modifies in flush set, program order is respected
+        * if intersection of 2 flush sets is non-empty, flushes must be seen in same order by everyone
+        * if thread reads, writes, modifies in flush set, program order is respected
         * atomic ops have implicit flush of the vars involved
     * Memory model
         * weak model (见iPad示意图)
