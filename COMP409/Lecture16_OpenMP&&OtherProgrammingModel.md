@@ -90,6 +90,89 @@ One concern is that our consensus algorithm is one shot and not reusable. Howeve
 `#pragma omp single` | Part within section that should only be executed by one thread
 `#pragme omp master` | Part that must be executed by a specified thread (master)
 
+```c
+#include <omp.h>
+#include <stdio.h>
+
+/* A simple example of using a few of the main constructs in openmp.
+ * To compile this (on linux):
+ *   gcc -o openmptest -fopenmp openmptest.c
+ */
+int main(int argc,char *argv[]) {
+    int i;
+    int t=8,n = 10;
+    if (argc>1) {
+        n = atoi(argv[1]);
+        printf("Using %d iterations\n",n);
+        if (argc>2) {
+            t = atoi(argv[2]);
+            printf("Using %d threads\n",t);
+        }
+    }
+    omp_set_num_threads(t);
+
+    /* A parallel for loop, iterations divided amongst the threads */
+#pragma omp parallel for
+    for (i=0;i<n;i++) {
+        printf("Iteration %d done by thread %d\n",
+               i,
+               omp_get_thread_num());
+    }
+
+    /* A parallel code, executed by all threads */
+#pragma omp parallel
+    printf("Hello from thread %d, nthreads %d\n",
+           omp_get_thread_num(),
+           omp_get_num_threads());
+
+    /* Two parallel sections doing different work */
+#pragma omp parallel
+#pragma omp sections
+    {
+#pragma omp section
+        { 
+            int j,k=0;
+            for (j=0;j<100000;j++)
+                k+=j;
+            printf("Section 1 from thread %d, nthreads %d, val=%d\n",
+                   omp_get_thread_num(),
+                   omp_get_num_threads(),k);
+        }
+#pragma omp section
+        { 
+            int j,k=0;
+            for (j=0;j<100000;j++)
+                k+=j;
+            printf("Section 2 from thread %d, nthreads %d, val=%d\n",
+                   omp_get_thread_num(),
+                   omp_get_num_threads(),k);
+        }
+    }
+}
+
+output:
+Iteration 2 done by thread 1
+Iteration 6 done by thread 4
+Iteration 3 done by thread 1
+Iteration 5 done by thread 3
+Iteration 7 done by thread 5
+Iteration 8 done by thread 6
+Iteration 9 done by thread 7
+Iteration 0 done by thread 0
+Iteration 1 done by thread 0
+Iteration 4 done by thread 2
+Hello from thread 4, nthreads 8
+Hello from thread 3, nthreads 8
+Hello from thread 5, nthreads 8
+Hello from thread 7, nthreads 8
+Hello from thread 1, nthreads 8
+Hello from thread 6, nthreads 8
+Hello from thread 2, nthreads 8
+Hello from thread 0, nthreads 8
+Section 1 from thread 4, nthreads 8, val=704982704
+Section 2 from thread 5, nthreads 8, val=704982704
+```
+
 ## Data Model
 
 Threads share static, heap data
