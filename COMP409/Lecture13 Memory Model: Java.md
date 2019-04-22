@@ -1,4 +1,4 @@
-# Lecture 13. 2018/02/28
+# Lecture 13. 02.28 Memory Model Java
 * Linux spin-lock 
     * Kernel lock(acquired frequently) 
     * Start: Lock: Dec[EAX] <— lock(atomic)
