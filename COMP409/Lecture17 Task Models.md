@@ -18,7 +18,7 @@
 * async
 * a void explicit thread, a async specifies a statement can be execute asynchronous
 * Nested asyncs 
-*
+* ![asyncGraph](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/asyncGraph.png)
 ```Java
 x = 0;
 async {
