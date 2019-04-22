@@ -1,4 +1,4 @@
-# Lecture 13. 2018/02/28
+# Lecture 13. 02.28 Memory Model Java
 * Linux spin-lock 
     * Kernel lock(acquired frequently) 
     * Start: Lock: Dec[EAX] <— lock(atomic)
@@ -66,7 +66,7 @@ We can construct a graph of an execution
 * eg.x = y = 0 
     * T0: r1 = y, x = 1, x = 2, r2 = x, x = 3
     * T1: r3 = x, y = 1 
-* 示意图见iPad
+* ![HandBefore](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/HandBefore_Graph.png)
     * Happens-Before Graph 
     * Dash lines are 'can-see edges' 
     * Which writes can a given read ‘see’? 
