@@ -113,7 +113,7 @@ public class Future {
 ```
 
 ## DAG 无环有向图
-* 见iPad图
+* ![DAG](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/DAG.png)
 * Performance depends on the order in which we choose text
 * Need a test schedule
 * Criticla Path: longest chain of dependencies
