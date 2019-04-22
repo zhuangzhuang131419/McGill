@@ -15,7 +15,7 @@ public interface seqObject() {
 ```
 * Invoc’s -> modifies the Data Structure
     * Record these as a log of data our Data Structure. changed from its initial state.
-    * 示意图见iPad
+    * ![Invocation](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/Invacation.png)
     * Need threads to agree on the order of operations in the log &rarr; consensus. So all threads agree on which operation is next.
 ```java
 Thread t: 
