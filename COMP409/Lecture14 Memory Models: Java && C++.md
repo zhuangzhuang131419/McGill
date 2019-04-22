@@ -1,4 +1,4 @@
-# Lecture 14. 2018/03/12
+# Lecture 14. 03.12 Memory Model: Java && C++
 
 ## JVM
 * Happen before - consistency
