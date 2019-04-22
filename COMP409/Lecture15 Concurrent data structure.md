@@ -1,4 +1,4 @@
-# Lecture 15. 2018/03/14
+# Lecture 15. 03.14 Concurrent data structure
 ## Lock-Free Stack
 * Lock free designs make use of CAS, LL/SL, etc as opposed to locks
 * Stack operation -> inherit sequential
