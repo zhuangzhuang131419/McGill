@@ -1,4 +1,4 @@
-# Lecture 14. 03.12 Memory Model: Java && C++
+# Lecture 14. 03.12 Memory Model: Java && C++ && Concurent Data Structure
 
 ## JVM
 * Happen before - consistency
