@@ -1,4 +1,4 @@
-# Lecture 10. 2018/02/14
+# Lecture 10. 2.14 Barrier and Consensus
 
 ## Barrier
 * Want thread to wait for each other &rarr; wait everyone finish phase1 before finishing phase2
