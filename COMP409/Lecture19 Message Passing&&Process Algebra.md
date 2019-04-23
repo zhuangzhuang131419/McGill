@@ -69,7 +69,7 @@ XEND
 ### Thread-Level Specialist(TLS)
 * atomic parallel program
     * sequential program ==TLS==> parallel program
-    * 见iPad示意图
+    * ![TLS](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/TLS.png)
         * notice: spec thread executes in the future, gets input state may not be correct
             * avoid this code being visible
             * at the join point, we test if its input state was correct
