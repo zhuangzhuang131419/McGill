@@ -77,7 +77,7 @@
 * This gives an ordered buffer
 
 ### Unordered Buffer
-* 见iPad图
+* ![UnorderedBuffer](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/Lecture20/UnorderedBuffer.png)
 * B.entry::P?x;
 * B.entry::B1!x -> B.entry[]
 * B.entry::B2!x -> B.entry[]
@@ -87,14 +87,13 @@
 CSP was the basis for OCCAM, common is between processor via channels
 
 ## Java CSP
-* Indentity
-    * 见iPad图
+* Identity
+    * ![Identity](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/Lecture20/Identity.png)
     * Identity(in, out)::In?x->Out!x -> Identity(in, out)
 * Increment
-    * 见iPad图
+    * ![Increment](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/Lecture20/Increment.png)
     * Inc(in, out)::identity?x->Out!(x + 1) -> Inc(in, out)
 * Add
-    * 见iPad图
     * +(in1, in2, out)::in1?x -> in2?y -> out!(x + y)
     * +(in1, in2, out)||P::in1!3 -> in2?7 -> 
     +(in1, in2, out)||P::in2!7 -> in1!3 ->
@@ -102,9 +101,10 @@ CSP was the basis for OCCAM, common is between processor via channels
         in1?x -> in2?y -> out!(x + y)[]
         in2?y -> in1?x -> out!(x + y)
 * Prefix
-    * 见iPad图
+    * ![Prefix](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/Lecture20/Prefix.png)
     * Prefix(in, out)::out!&emptyset->Identity(in, out)
 * 应用
+   * ![Application](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/Lecture20/Application.png)
 
 
 
