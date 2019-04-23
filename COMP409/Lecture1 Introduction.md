@@ -1,4 +1,4 @@
-# Lecture 1. 2018/01/08
+# Lecture 1. 01.08 Introduction
 
 ## Parallelism vs. Concurrency
 * Parallelism（并行）
@@ -50,8 +50,8 @@
     * 
 * Amdahl's Law
     * Total time is based on two pieces: sequential part(s) + parallel part(p)
-    * Parallel part can be distributed among the $$n$$ threads: $$t = s + p / n$$
-    * Speedup: $$\frac{1}{1-p+\frac{p}{n}}$$
+    * Parallel part can be distributed among the n threads: t = s + p / n
+    * Speedup: 1/(1-p+p/n)
         * Linear speed up &rarr; ideal but not usually seen
         * 一般的speed-up最后可能会下降
 
