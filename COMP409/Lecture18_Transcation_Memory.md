@@ -57,7 +57,7 @@
     * make all atomic blocks mutually exclusive
     * weakness
         * eg.
-        ```java
+         ```java
                 atomic {
                     x = 1;
                     b = y;
@@ -69,7 +69,7 @@
                     a = x;
                     c = y;
                 }
-        ```
+         ```
         * use a single global lock(assume no data-race)
             * a single global lock does not allow thread to be done in parallel 例子iPad
             * more fine-grain
@@ -89,21 +89,28 @@
 * still need correct execution
     * execute optimistically (with no locking)
     * need to detect if any data is modified while we execute our transcation
-        * eg.见图
-            * if any Reads or Write x, y, z -> not atomic
-            * we need to fix it
-                * we could keep an undo-log
-                * undo any partial execution and our atomic section & retry section
-                * if all data inside data is untouched effectively atomic
-                    * better if we can avoid visibility of our transcational writes until the transcations succed
-                    * use isolation
-                        * each atomic section, 
-                            * read buffer(know what we read)
-                            * write buffer(we don't write into main memory within a transcation)
-                            * no-conflit
-                                * end of the transcations, commit the write buffer
-                            * conflict
-                                * throw away and restart
+        * eg.
+        ```Java
+        atomic {
+         x = 1;
+         y = x;
+         z = x + y;
+        }
+        ```
+         * if any Reads or Write x, y, z -> not atomic
+         * we need to fix it
+            * we could keep an undo-log
+            * undo any partial execution and our atomic section & retry section
+            * if all data inside data is untouched effectively atomic
+               * better if we can avoid visibility of our transcational writes until the transcations succed
+               * use isolation
+                  * each atomic section, 
+                     * read buffer(know what we read)
+                     * write buffer(we don't write into main memory within a transcation)
+                     * no-conflit
+                        * end of the transcations, commit the write buffer
+                     * conflict
+                        * throw away and restart
 ## Language Issue
 * nested transcation
     * 
