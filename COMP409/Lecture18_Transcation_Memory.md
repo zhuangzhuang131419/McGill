@@ -71,14 +71,27 @@
                 }
          ```
         * use a single global lock(assume no data-race)
-            * a single global lock does not allow thread to be done in parallel 例子iPad
+            * a single global lock does not allow thread to be done in parallel
             * more fine-grain
                 * find all data accessed in an atomic block
-                * iPad方法
+                *
+                ```
+                atomic {        Arw u.lock()
+                    A;      =>      A;
+                }               Arw u.unlock()
+                ```
                 * this way independent atomic section can be done in parallel
                     * some issue
                         * find Arw
-                            *ipad
+                            * 
+                            ```java
+                            atomic {
+                                while (p != null) {
+                                    p.data = 1;
+                                    p = p.next;
+                                }
+                            }
+                            ```
                         * data accessed among not be obvious ahead of time, can also turn into a lot of locking & unlocking
                     * need to avoid dead lock
                         * tryLock -> exception
@@ -113,7 +126,6 @@
                         * throw away and restart
 ## Language Issue
 * nested transcation
-    * 
 * atomic solves atomically/ ME
     * wait/ notify
     * allow you to retry
