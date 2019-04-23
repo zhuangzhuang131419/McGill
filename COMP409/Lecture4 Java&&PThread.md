@@ -1,4 +1,4 @@
-# Lecture 4. 2018/01/22
+# Lecture 4. 01.22 Java && Pthread
 ## How does a multithread program start?
 * Runnable
     * implement Runnable
@@ -40,7 +40,7 @@
 * Threads may also sleep, which goes to a waiting mode, or be woken up
 * Threads may be terminated, leading to a stopped mode
 ## 线程的各个state
-* 见iPad
+* ![State](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/ThreadState.png)
 * More threads will be ready to execute &rarr; then we have CPU
 
 ## Java's Thread Model
