@@ -49,11 +49,11 @@
 
 ### pessimistic version
 * 
-            ```java
-            atomic {        synchronized(global) {
-                //     =>       //
-            }               }
-            ```
+    ```java
+        atomic {        synchronized(global) {
+            //     =>       //
+        }               }
+    ```
     * make all atomic blocks mutually exclusive
     * weakness
         * eg.
