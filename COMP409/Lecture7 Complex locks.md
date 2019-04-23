@@ -1,4 +1,4 @@
-# Lecture 7. 2018/01/31
+# Lecture 7. 01.31 Complex locks
 ## Java's Locks (synchronous)
 * 如果我们把monitor_enter/monitor_exit看成是Fat Lock方式，则可以把Thin Lock看成是一种基于CAS（Compare and Swap）的简易实现。
 * 而基于CAS方式的实现，线程进入竞争状态的，获得锁的线程，会让其他线程处于自旋状态（也称之为Spin Mode，即自旋），这是一种while(Lock_release) doStuff()的Busy-Wait方式，是一种耗CPU的方式；而Fat Lock方式下，一个线程获得锁的时候，其他线程可以先sleep，等锁释放后，再唤醒（Notify）。
@@ -23,8 +23,8 @@
 
 * "Fat" Lock
     * Need mutex
-    * Lock divided into 8, 24, 1
-    * 24 bit - points to the pointer to mutex 
+    * Lock divided into 8, 23, 1
+    * 23 bit - points to the pointer to mutex 
     * 1 bit - shape bit (1)
 * 如果T1, T2，T3，T4...产生线程竞争，则T1通过CAS获得锁(此时是Thin Lock方式)，如果T1在CAS期间获得锁，则T2，T3进入SPIN状态直到T1释放锁；而第二个获得锁的线程，比如T2，会将锁升级（Inflation）为Fat Lock，于是，以后尝试获得锁的线程都使用Mutex方式获得锁。
 * Tasuki锁为这种方式做了2个优化：
