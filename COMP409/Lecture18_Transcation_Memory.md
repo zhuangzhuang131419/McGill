@@ -19,7 +19,7 @@
 
 ## Greedy Schedule performance
 * In any particular step, we have two possible outcome
-    * complete stwp -> more tasks avaliable than threads(choose subset of avaliable tasks)
+    * complete step -> more tasks avaliable than threads(choose subset of avaliable tasks)
     * incomplete step -> fewer tasks than threads
 
 ## Graham & Brent therom
