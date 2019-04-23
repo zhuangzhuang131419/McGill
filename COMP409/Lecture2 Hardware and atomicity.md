@@ -4,7 +4,7 @@
 
 * UP &mdash; Basic uniprocessor
     * CPU &mdash; cache &mdash; memory
-      * ![Uniprocessor](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/Lecture2/Uniprocesspr.png)
+      * ![Uniprocessor](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/Lecture2/Uniprocessor.png)
     * No course parallelism, still low-level concurrency
         * pipelining (more than one instruction)
         * multifunction unit: multi-issue
@@ -16,7 +16,7 @@
         * threads can complete resource of memory 
 * MP &mdash; Multiprocessor
     * Many [CPU &mdash; cache] to shared memory
-      * ![Multiprocessor](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/Lecture2/Multiprocesspr.png)
+      * ![Multiprocessor](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/Lecture2/Multiprocessor.png)
     * Keeping the cache consistent is important
 * UMA &mdash; Uniform memory access
     * All memory accesses cost the same (modulo cache)
