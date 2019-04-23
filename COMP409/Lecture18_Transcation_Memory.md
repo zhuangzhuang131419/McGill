@@ -105,9 +105,9 @@
         * eg.
         ```Java
         atomic {
-         x = 1;
-         y = x;
-         z = x + y;
+            x = 1;
+            y = x;
+            z = x + y;
         }
         ```
          * if any Reads or Write x, y, z -> not atomic
