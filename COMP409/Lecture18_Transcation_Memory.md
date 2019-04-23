@@ -83,7 +83,6 @@
                 * this way independent atomic section can be done in parallel
                     * some issue
                         * find Arw
-                            * 
                             ```java
                             atomic {
                                 while (p != null) {
