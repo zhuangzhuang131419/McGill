@@ -1,9 +1,10 @@
-# Lecture 2. 2018/01/15
+# Lecture 2. 01.15 Hardware, atomicity
 
 ## Hardware
 
 * UP &mdash; Basic uniprocessor
-    * CPU &mdash; cache &mdash; memory (示意图见iPad)
+    * CPU &mdash; cache &mdash; memory
+      * ![Uniprocessor](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/Lecture2/Uniprocesspr.png)
     * No course parallelism, still low-level concurrency
         * pipelining (more than one instruction)
         * multifunction unit: multi-issue
@@ -14,7 +15,8 @@
     * Cache helps with performance
         * threads can complete resource of memory 
 * MP &mdash; Multiprocessor
-    * Many [CPU &mdash; cache] to shared memory（示意图见iPad）
+    * Many [CPU &mdash; cache] to shared memory
+      * ![Multiprocessor](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/Lecture2/Multiprocesspr.png)
     * Keeping the cache consistent is important
 * UMA &mdash; Uniform memory access
     * All memory accesses cost the same (modulo cache)
@@ -22,6 +24,7 @@
     * Caches need to be consistent
 * NUMA &mdash; Non-UMA
     * Many [CPU &mdash; cache] to shared memory (slow) & many local memories (fast)
+    * ![NUMA](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/Lecture2/NUMA.png)
 * SMP &mdash; Symmetric MP
     * Multiprocessor with same CPUs （与Multiprocessors结构类似）
     * Advantage &mdash; "true" parallelism 
@@ -32,6 +35,7 @@
     * CPUs & caches are on a chip
     * Faster cache communication
     * Same disadvantage as SMP
+    * ![CMP](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/Lecture2/CMP.png)
 * CMT/FMT &mdash; Coarse/fine grained multi-threaded
     * CMT &mdash; context switch every so many cycles
         * 由很多register set组成，每个set里都是multiple hardware context
@@ -46,7 +50,8 @@
             * Had no data-cache, meaning data access involves 70 cycles. However, due to the threads, there is no idle
             * Not necessarily responsive, but has high throughput
 * SMT &mdash; Simultaneous MT
-    * Support "true" parallelism but not suffer in single-thread &mdash; act like a CMP （示意图见iPad，线程互相之间的界限没有特别明显）
+    * Support "true" parallelism but not suffer in single-thread &mdash; act like a CMP （线程互相之间的界限没有特别明显）
+    * ![SMT](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/Lecture2/SMT.png)
     * Multiple functional units
     * When single-thread execution, act like one big chip.
     * In Intell, this is called hyper-threading, early versions were NOT the same as having 2 real cores.
