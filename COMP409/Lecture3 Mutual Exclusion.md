@@ -1,4 +1,4 @@
-# Lecture 3. 2018/01/17
+# Lecture 3. 01.17 Mutual Exclusion
 
 ### interleavings 
 * n threads, each doing m atomic instructions 
