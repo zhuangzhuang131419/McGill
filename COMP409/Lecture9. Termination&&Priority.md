@@ -1,4 +1,4 @@
-# Lecture 9. 2018/02/12
+# Lecture 9. 02.12 Termination and Priority
 ## Resource Deadlock
 * condition required
 * Coffman's consition 1971
