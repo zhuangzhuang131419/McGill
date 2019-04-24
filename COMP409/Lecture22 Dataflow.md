@@ -25,7 +25,7 @@
                 * This is not a function in terms of individual tokens.
                 * The actor: if it receives a sequence of 1s, it emits the N
                 * Partial sum: 1^N -> N, it is a function in terms of streams.
-            * 示意图
+            * ![CDR](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/Lecture22/CDR.png)
             * CDR discards its first input and then acts as the identity.（删去第一个输入，后面不变） 
             * I.e.: we get the Fibonacci sequence. 
             * To figure this out, we flowed data around and observe the stream on each channel.
@@ -49,7 +49,7 @@
                 * ⊥(bottom): empty stream
                 * s1 ⊆ s2 (s1 is a prefix of s2)
                 * End of stream marker ·
-                * 示意图
+                * ![streamMarker](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/Lecture22/streamMarker.png)
                 * Out actors compute functions in our stream domain
             * Monotonic function
                 * Order preserving
