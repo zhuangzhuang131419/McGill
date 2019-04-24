@@ -1,4 +1,4 @@
-# Lecture 5. 2018/01/24
+# Lecture 5. 01.24 Simple Lock
 ## PThreads
 
 * POSIX library - link to various applications

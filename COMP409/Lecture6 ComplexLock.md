@@ -1,4 +1,4 @@
-# Lecture 6. 2018/01/29
+# Lecture 6. 01.29 Complex Lock
 ### Bakery Algorithm
 * Broken ticket dispenser
 

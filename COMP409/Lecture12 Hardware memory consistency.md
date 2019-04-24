@@ -1,4 +1,4 @@
-# Lecture 12. 2018/02/21
+# Lecture 12. 02.21 Hardware memory consistency
 Intel/AMD
 * Memory management implied in the hardware manual
 * White paper
