@@ -1,4 +1,4 @@
-# Lecture 8. 2018/02/07
+# Lecture 8. 02.07 DeadLock
 In Java concurrency, every synchronized block has a single unnamed "conditional variable" (Access to C.V in Java is with Object.wait() and Object.notify() )
 * While 和 wait() 搭配使用
     * wait() 释放锁
