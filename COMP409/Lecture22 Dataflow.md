@@ -70,6 +70,7 @@
                     * Network of continuous functions
                     * Theorem: Kahn’s principle
                         * A network of continuous functions is described by a system of (recursive) equation, the least solution of which describes the temporal history of the network.
+                        * Kahn’s principle states that if each process in a dataflow network computes a continuous input/output function, then so does the entire network.
             * 示意图
             * Static
                 * Regular functions
