@@ -1,4 +1,4 @@
-# Lecture 1. 2018/01/08
+# Lecture 1. 01.08 Introduction
 
 ## Parallelism vs. Concurrency
 * Parallelism（并行）
@@ -50,8 +50,8 @@
     * 
 * Amdahl's Law
     * Total time is based on two pieces: sequential part(s) + parallel part(p)
-    * Parallel part can be distributed among the $$n$$ threads: $$t = s + p / n$$
-    * Speedup: $$\frac{1}{1-p+\frac{p}{n}}$$
+    * Parallel part can be distributed among the n threads: t = s + p / n
+    * Speedup: 1/(1-p+p/n)
         * Linear speed up &rarr; ideal but not usually seen
         * 一般的speed-up最后可能会下降
 
@@ -80,12 +80,13 @@
         However, if we did both conversions in parallel and ignore the middle transition, we will be able to transition to `abab`
     * Example 2 &mdash; consider 5 items spaced evenly in a circle, with equal distance from the center point. Our goal is to rotate them all at the same time. If we were to do it sequentially, there will be a speed for which an item will cross over another. However, if we were to do it all in parallel, which would not be an issue.
 
-# Lecture 2. 2018/01/15
+# Lecture 2. 01.15 Hardware, atomicity
 
 ## Hardware
 
 * UP &mdash; Basic uniprocessor
-    * CPU &mdash; cache &mdash; memory (示意图见iPad)
+    * CPU &mdash; cache &mdash; memory
+      * ![Uniprocessor](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/Lecture2/Uniprocessor.png)
     * No course parallelism, still low-level concurrency
         * pipelining (more than one instruction)
         * multifunction unit: multi-issue
@@ -96,7 +97,8 @@
     * Cache helps with performance
         * threads can complete resource of memory 
 * MP &mdash; Multiprocessor
-    * Many [CPU &mdash; cache] to shared memory（示意图见iPad）
+    * Many [CPU &mdash; cache] to shared memory
+      * ![Multiprocessor](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/Lecture2/Multiprocessor.png)
     * Keeping the cache consistent is important
 * UMA &mdash; Uniform memory access
     * All memory accesses cost the same (modulo cache)
@@ -104,6 +106,7 @@
     * Caches need to be consistent
 * NUMA &mdash; Non-UMA
     * Many [CPU &mdash; cache] to shared memory (slow) & many local memories (fast)
+    * ![NUMA](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/Lecture2/NUMA.png)
 * SMP &mdash; Symmetric MP
     * Multiprocessor with same CPUs （与Multiprocessors结构类似）
     * Advantage &mdash; "true" parallelism 
@@ -114,6 +117,7 @@
     * CPUs & caches are on a chip
     * Faster cache communication
     * Same disadvantage as SMP
+    * ![CMP](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/Lecture2/CMP.png)
 * CMT/FMT &mdash; Coarse/fine grained multi-threaded
     * CMT &mdash; context switch every so many cycles
         * 由很多register set组成，每个set里都是multiple hardware context
@@ -128,7 +132,8 @@
             * Had no data-cache, meaning data access involves 70 cycles. However, due to the threads, there is no idle
             * Not necessarily responsive, but has high throughput
 * SMT &mdash; Simultaneous MT
-    * Support "true" parallelism but not suffer in single-thread &mdash; act like a CMP （示意图见iPad，线程互相之间的界限没有特别明显）
+    * Support "true" parallelism but not suffer in single-thread &mdash; act like a CMP （线程互相之间的界限没有特别明显）
+    * ![SMT](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/Lecture2/SMT.png)
     * Multiple functional units
     * When single-thread execution, act like one big chip.
     * In Intell, this is called hyper-threading, early versions were NOT the same as having 2 real cores.
@@ -240,7 +245,7 @@ We can generalize:
   load r1, [y]<br>inc r1<br>str r1, [x] | load r1, [x]<br>inc r1<br>str r1, [y]
 * Neither satisfy AMO, so there may be interleaving (eg resulting in x = 1, y = 1)
 
-# Lecture 3. 2018/01/17
+# Lecture 3. 01.17 Mutual Exclusion
 
 ### interleavings 
 * n threads, each doing m atomic instructions 
@@ -386,8 +391,7 @@ What we are looking for
     * By creating a runnable object and passing it to the thread constructor.
 * Typically the latter is used; the former is if you wish to change the behaviour of threads, not just the code it runs.
 
-
-# Lecture 4. 2018/01/22
+# Lecture 4. 01.22 Java && Pthread
 ## How does a multithread program start?
 * Runnable
     * implement Runnable
@@ -429,7 +433,7 @@ What we are looking for
 * Threads may also sleep, which goes to a waiting mode, or be woken up
 * Threads may be terminated, leading to a stopped mode
 ## 线程的各个state
-* 见iPad
+* ![State](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/ThreadState.png)
 * More threads will be ready to execute &rarr; then we have CPU
 
 ## Java's Thread Model
@@ -524,7 +528,7 @@ synchronized(lock) {
         All data accessed by 2 or more threads must be only accessed under synchronization or declare volatile.
         
         
-# Lecture 5. 2018/01/24
+# Lecture 5. 01.24 Simple Lock
 ## PThreads
 
 * POSIX library - link to various applications
@@ -660,8 +664,7 @@ exit() {
     number++;
 }
 ```
-
-# Lecture 6. 2018/01/29
+# Lecture 6. 01.29 Complex Lock
 ### Bakery Algorithm
 * Broken ticket dispenser
 
@@ -866,7 +869,7 @@ exit(int id) {
 
 
 
-# Lecture 7. 2018/01/31
+# Lecture 7. 01.31 Complex locks
 ## Java's Locks (synchronous)
 * 如果我们把monitor_enter/monitor_exit看成是Fat Lock方式，则可以把Thin Lock看成是一种基于CAS（Compare and Swap）的简易实现。
 * 而基于CAS方式的实现，线程进入竞争状态的，获得锁的线程，会让其他线程处于自旋状态（也称之为Spin Mode，即自旋），这是一种while(Lock_release) doStuff()的Busy-Wait方式，是一种耗CPU的方式；而Fat Lock方式下，一个线程获得锁的时候，其他线程可以先sleep，等锁释放后，再唤醒（Notify）。
@@ -891,8 +894,8 @@ exit(int id) {
 
 * "Fat" Lock
     * Need mutex
-    * Lock divided into 8, 24, 1
-    * 24 bit - points to the pointer to mutex 
+    * Lock divided into 8, 23, 1
+    * 23 bit - points to the pointer to mutex 
     * 1 bit - shape bit (1)
 * 如果T1, T2，T3，T4...产生线程竞争，则T1通过CAS获得锁(此时是Thin Lock方式)，如果T1在CAS期间获得锁，则T2，T3进入SPIN状态直到T1释放锁；而第二个获得锁的线程，比如T2，会将锁升级（Inflation）为Fat Lock，于是，以后尝试获得锁的线程都使用Mutex方式获得锁。
 * Tasuki锁为这种方式做了2个优化：
@@ -1074,8 +1077,7 @@ notifyAll() {
 * Reader/Writer Lock
     * DB context - only 1 write at a time
     * Multiple concurrent readers
-
-    # Lecture 8. 2018/02/07
+# Lecture 8. 02.07 DeadLock
 In Java concurrency, every synchronized block has a single unnamed "conditional variable" (Access to C.V in Java is with Object.wait() and Object.notify() )
 * While 和 wait() 搭配使用
     * wait() 释放锁
@@ -1294,8 +1296,7 @@ eat()
 V(max(i, j)) // order here isn't as important
 V(min(i, j)) // but reverse unlock is good practice
 ```
-
-# Lecture 9. 2018/02/12
+# Lecture 9. 02.12 Termination and Priority
 ## Resource Deadlock
 * condition required
 * Coffman's consition 1971
@@ -1409,8 +1410,7 @@ Class foo {
 ```
 * Imagine an implementation: Thread is the key Store a value (Something like a hashtable)
 
-
-# Lecture 10. 2018/02/14
+# Lecture 10. 2.14 Barrier and Consensus
 
 ## Barrier
 * Want thread to wait for each other &rarr; wait everyone finish phase1 before finishing phase2
@@ -1497,7 +1497,7 @@ CAS(x, a, b) {
 
 testlock = 0;
 TS(x, y) {
-    while (CAS(testlock, 1, 1)); // spin
+    while (CAS(testlock, 0, 1)); // spin
     temp = x;
     x = y;
     testlock = 0;
@@ -1567,8 +1567,7 @@ int decide (int v):
 ---
 hierarchy
 * R/W < TS/FA < CAS
-
-# Lecture 11. 2018/02/19
+# Lecture 11. 02.19 Linearizability, scheduling and Hardware memory consistency
 ## Processes and Synchronization:  Scheduling Policies and Fairness
 [Reference Website](http://www.it.uom.gr/teaching/distrubutedSite/cisumassd/chap02/chap02_20.html)
 * A `scheduling policy` decides which of the eligible atomic actions will be excuted next
@@ -1690,8 +1689,8 @@ As a result, with buffering, we can have (0, 0).
     * SC implies cohrerence and PC
     * PC does not imply coherence
     * Coherence does not imply PC
-
-# Lecture 12. 2018/02/21
+    
+    # Lecture 12. 02.21 Hardware memory consistency
 Intel/AMD
 * Memory management implied in the hardware manual
 * White paper
@@ -1777,3 +1776,1308 @@ So Intel fixed the documents
           | Up | &tau;q |
 
             * Without lock, p can begin increment, q can set to 7, and p can increment the new value by 1 &rarr; 8
+            # Lecture 13. 02.28 Memory Model Java
+* Linux spin-lock 
+    * Kernel lock(acquired frequently) 
+    * Start: Lock: Dec[EAX] <— lock(atomic)
+        * JNS enter —> decrement from 1 
+    * Spin: CMP[EAX], 0
+        * JLE spin
+        * JMP start 
+    * Exit: Lock: MOV [EAX], 1
+        * (but do we need Lock this?)
+        * No, we do not need this.
+### What about Java?
+* Languages always come up with a memory model.
+* 内存模型解决并发问题主要采用两种方式：**限制处理器优化**和**使用内存屏障**。
+* Java has a memory model —> JMM Old model is complex and ill-defined.
+    * Global memory -> working memory -> execution engine -> W.M. -> G.M.
+* It was stronger: coherence 
+    * Recall: One timeline per variable 
+    * OK -> Coherence is a ‘lower bound’ on programmability 
+* eg. 
+    * int i = p.x;                  int i = p.x;
+    * int j = q.x;                  int j = q.x;
+    * int h = p.x;  == Optimize ==> int h = i;
+    * But suppose p&q are the same object and another thread set p.x = 1; 
+    * And when i = 0, j = 1, if we set h to i, that is 0, it is no longer coherence. So this optimization is not allowed!
+---
+* The new JMM 
+    * ![JavaMemoryModel](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/JavaMemoryModel.png)
+    * JMM决定一个线程对共享变量的写入何时对另一个线程可见
+    * 线程之间的共享变量储存在主内存(main memory)中，每个线程都有一个私有的本地内存(local memory)，本地内存中储存了该线程以读/写共享变量的副本。
+    * Tries to solve 2 problems
+    1. Weak ordering so we can optimize.
+    2. Strong ordering for programmers.
+    * Divide programs into 2 groups
+    1. Correctly synchronized program 
+        * Contains NO data races.
+        * Then you can assume sequential consistency(great for programmers)
+    2. Incorrectly-synchronized program Contains at least one data-race 
+        * A more complet semantics 
+        * Start with the orderings 
+        * x = 1 -> y = 2 -> a = x -> b = y -> c = 3 
+            * Intra-thread ordering follows your program order.
+                * intra-thread semantics 
+                * 允许那些在单线程内，不会改变单线程程序执行结果的重排序。  
+            * Also another ordering 
+                1. Synchronization order 
+                    * unlocks(m) precedes locks(m)
+                    * volatile write precedes all subsequent result.
+                    *  eg. 
+                    T0: m.lock() --intra--> m.unlock();
+                    T1: m.lock() --intra--> m.unlock();
+                        * T0 -> T1: runtime T0 acquire m before T1
+                        * T1 -> T0: runtime T1 acquire m before T0
+                2. Inter-thread order 
+                3. Total order over synchronized events (a runtime) 
+                    * Thread-start precedes the first operation by the thread, the last statement of a thread precedes a join on that thread
+            * Sync order + intra-thread order 
+                * Happens-Before 前一个操作的执行结果对后一个是可见的
+                * Ordering on continue trace 
+                * Partial ordering 
+---
+## Graph
+We can construct a graph of an execution
+* Nodes -> operations/actions
+* Arrows will be intra-thread sync order
+* eg.x = y = 0 
+    * T0: r1 = y, x = 1, x = 2, r2 = x, x = 3
+    * T1: r3 = x, y = 1 
+* ![HappensBeforeGraph](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/HappensBeforeGraph.png)
+    * Happens-Before Graph 
+    * Dash lines are 'can-see edges' 
+    * Which writes can a given read ‘see’? 
+---
+We have 2 rules to constraint that:
+1. R(x) should not precede W(x) 
+* r2 = x -> x = 3; r2 cannot be 3
+2. W(x) -> W’(x) -> R(x) 
+* x = 1 -> x = 2 -> r2 = x; r2 cannot be 1 
+So r1 in above figure can se either 0 or 1. 
+---
+### HappensBefore - consistency
+* 在JMM中，如果一个操作执行的结果需要对另一个操作可见，那么这两个操作之间必须存在happens-before关系。
+* Define
+    1. 程序次序规则：`一个线程内`，按照代码顺序，书写在前面的操作先行发生于书写在后面的操作；
+    2. 锁定规则：一个unLock操作先行发生于后面对同一个锁额lock操作；
+    3. volatile变量规则：对一个变量的写操作先行发生于后面对这个变量的读操作；
+    4. 传递规则：如果操作A先行发生于操作B，而操作B又先行发生于操作C，则可以得出操作A先行发生于操作C；
+    5. 线程启动规则：Thread对象的start()方法先行发生于此线程的每个一个动作；
+    6. 线程中断规则：对线程interrupt()方法的调用先行发生于被中断线程的代码检测到中断事件的发生；
+    7. 线程终结规则：线程中所有的操作都先行发生于线程的终止检测，我们可以通过Thread.join()方法结束、Thread.isAlive()的返回值手段检测到线程已经终止执行；
+    8. 对象终结规则：一个对象的初始化完成先行发生于他的finalize()方法的开始；
+* 
+    ```Java
+    private int i = 0;
+    
+    T0:
+    public void write(int j ){
+        i = j;
+    }
+    T1:
+    public int read(){
+        return i;
+    }
+    ```
+    * 我们约定线程T0执行write()，线程T1执行read()，且线程T0优先于线程T1执行，那么线程B获得结果是什么？
+    * 我们无法通过happens-before原则推导出线程T0 happens-before 线程T1 ，虽然可以确认在时间上线程T0优先于线程T1指定，但是就是无法确认线程T1获得的结果是什么，所以这段代码不是线程安全的。
+* There are weird things in HappensBefore- consistency
+* eg. x = y = 0
+    * T0: r1 = x -> y = r1
+    * T1: r2 = y -> x = r2
+* Can x == y == 42 ?(out-of-thin-air value: comes out of nowhere)
+    * y can see y = 0 and y = r1 
+    * r1 comes from x 
+    * x can see x = 0 and x = r2 
+    * r2 comes from y 
+
+* Finally we get: y comes from y, x comes from x. HB-consistency do NOT forbid this. But this is NOT good.
+
+* Can we forbid this out of thin air value? 
+* We had a causal cycle: y was caused by y, x was caused by x.
+* Can we forbid causal cycle?
+    * No! 
+    * eg. a = b = 0
+        * T0: i = a -> j = a -> if (i == j) b = 2
+        * T1: k = b -> a = k
+    * Can we get i == j == k == 2?
+
+* But we could optimize this code to:
+    * eg. a = b = 0
+        * T0: b = 2 -> i = a -> j = i
+        * T1: k = b -> a = k
+        * Now we can have i == j == k == 2 by only interleaving.
+        * To allow such optimization, we must allow causal cycle.
+
+* To allow some cycles but not OOTA values 
+    * Justification process 
+    * Iterative process(迭代解决)
+        * Compute a well-behaved execution 
+        * Only see writes that HB before the read 
+        * No data races -> done 
+        * If there are data races
+            * Pick a data race
+            * Resolve it 
+            * R/W 
+                * Chose which write the read saw
+            * Now committed 
+        * ‘Restart’ the execution with assumption 
+        * Then check if there are more data races
+# Lecture 14. 03.12 Memory Model: Java && C++ && Concurent Data Structure
+
+## JVM
+* Happen before - consistency
+* caused cycle
+    * out of thin-air
+* "justification" process
+    * program execution
+    * look for data reace 
+    * if no races, all threads see writes happen before
+ 
+* eg.
+```Java
+    x = y = 0;
+    T0:             T1:
+    r1 = x;         r2 = y;
+    y = 1;          x = 1;
+```
+Can we get r1 == r2 == 1? Yes!
+
+```Java
+    x = y = 0;
+    T0:                     T1:
+    lock m1;                lock m2;
+    r1 = x;                 r2 = y;
+    unlock m1;              unlock m2;
+    lock m2;                lock m1;
+    y = 1;                  x = 1;
+    unlock m2;              unlock m1
+```
+* No race conditions! Assume S.C.
+
+### When is a race-condition(data race)?
+* Occurs at runtime!(Not in the code) 
+* eg.
+```Java
+    x = y = 0 
+    T0:                     T1:
+    do{                     do {
+        r1 = x;                 r2 = y;
+    } while (r1 == 0)       } while (r2 == 0)
+    y = 42                  x = 42             // never reachable
+```
+* No data-race! 
+* It is race-free by divergence, we never executes the writes to x and y
+
+## JMM:
+* H.B.- graph
+    * Runtime execution 
+    * Intra-thread order 
+    * Sync-order 
+---
+## C++ Memory Model
+* Use pthreads 
+* Very similar to JAVA
+    * ‘Sequence-before’(very much like ‘Happen-Before’) 
+    * Intra-thread + inter-thread 
+    * This is a partial order even in intrathread(from the language) 
+    * Like JAVA, data-race-free program -> S.C.
+    * If have data-race, implementation-defined.
+* Avoid data-races!
+```Java
+unsigned int i = x; // i is a shared variable
+if (i < 2) { // i must be 0 or 1
+    // if i is changed by another thread here, then it will have problem
+    switch (i) {
+        case 0: // ...
+        case 1: // ...
+        default: // unreachable
+    }
+}
+```
+
+---
+## ABA & Lock-free
+* ‘wait-free’:
+    * must finish in finite time
+    * fault tolerant
+* ‘lock-free’
+    * ![Lock Free Definition](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/LookFreeDefine.png)
+    * 一个Lock free的程序能够确保执行它的所有线程中至少有一个能够继续往下执行。
+    * Somebody make progress 
+    * Avoid locking
+    * Guarantee that infinitely often SOME method calls finish, in a finite # of steps.
+    * 在一系列访问 Lock-Free操作的线程中，如果某一个线程被挂起，那么其绝对不会阻止其他线程继续运行（Non-Blocking）。
+* Locking(blocking) is expensive. 
+    1) OS schedule is involved
+    2) Use spin-locks(by using CAS, TS, etc…)
+    Some difficulties: Lock-free stack?
+---
+* 1983 -> IBM(370) was making lock-free stack, but bugs exist.
+ABA problems Simple lock-free stack 
+```Java
+    push(Node n) {
+        do {
+            Node t = TOS; // Top of stack
+            n.next = t;
+        } while (!CAS(TOS, t, n)); // 
+    }
+    
+    pop() {
+        Node t, n;
+        do {
+            t = TOS;
+            if (t == null) {
+                return "empty";
+            }
+            n = t.next;
+        } while (!CAS(TOS, t, n))
+        return t;
+    }
+```
+BUG:
+* eg. 
+    * T0: pop()
+    * T1: ------ pop()-> pop()-> push()
+|`x`| <- TOS
+|`y`|
+|`z`|
+    * T0: pop() -> t = `x` -> n = `y`
+    * T1: -----------------pop() -> t = `x` -> n = `y` -> CAS(TOS, `x`, `y`) == true -> return `x`
+|`x`|
+|`y`| <- TOS
+|`z`|
+    * T0: -----------------------------------------------------------------
+    * T1: pop() -> t = `y` -> n = `z` -> CAS(TOS, `y`, `z`) == true -> return y -> **free(y)**
+|`x`|
+|`z`| <- TOS
+    * T0: ------------------------------------------------------------------
+    * T1: push(`x`) -> t = `z` -> `x`.next = z -> CAS(TOS, `z`, `x`) == true 
+|`x`|  |`x`| <- TOS
+&nbsp; &nbsp; &nbsp;|`z`|
+    * T0: -> CAS(TOS, `x`, `y`) == true -> **CRASH!!!**
+*  `y` has been freed, unallocated!
+*  Here CAS tells us TOS is ‘still’ `x`, but the stack itself has changed.
+
+* Text claim that JAVA does not have an ABA problem. Since JAVA have a garbage collection, y will not be freed. But we could have reuse y for any purpose.(y 可
+能已经被做过很多操作，不应当属于这个stack了) 
+
+---
+## Solution
+* LL/SC
+    * Load-Linked, State-Conditional 
+    * 2 operations that let us construct tests to ensure a memory address has not been written(even with the exactly same value) 
+    * In computer science, load-link and store-conditional (LL/SC) are a pair of instructions used in multithreading to achieve synchronization. Load-link returns the current value of a memory location, while a subsequent store-conditional to the same memory location will store a new value only if no updates have occurred to that location since the load-link. 
+    * Load-link返回内存位置处的当前值，随后的store-conditional在该内存位置处保存新值（如果从load-link后没有被修改）。
+* LL/SL
+    * Not Intel 
+    * PPC, ARM, Alpha... 
+    * PPC: 
+```Java
+    lwarx(x) {
+        temp = x;
+        x is reserved by the process/CPU
+        return temp;
+    }
+```
+```Java
+    stwcx(x, y) { 
+        if (x is still reserved for us) { 
+            x = y; 
+            Remove reservation; 
+            return true; 
+        } 
+        return false;
+    }
+```
+```Java
+redoit:
+    lwarx r1, 0, xR
+    addi r1, r1, 1
+    stwcx r1, 0, xN
+    bne redoit
+    // redoit if reservation failed
+```
+* reservation disappear if
+    1) Someone else does LL/SL
+    2) x is written Now, if we use LL/SC, instead of CAS in our stack, NO ABA problem 
+---
+* JAVA does not give an LL/SC. 
+* If we used CAS on a ‘wider value’ <TOS, #version> AtomicStampedReference
+# Lecture 15. 03.14 Concurrent data structure
+## Lock-Free Stack
+* Lock free designs make use of CAS, LL/SL, etc as opposed to locks
+* Stack operation -> inherit sequential
+* Some time, we can benefit from concurrency
+    * push() <----exchange-----> pop()
+
+
+## Elimination Stack
+With a lock-free stack, we still have a lot of contention. Stack ops are fundamentally sequential. However, if `push()` and `pop()` show up at the same time, it might be better to just short-circuit the whole thing. ie, `push()` gives the value to `pop`; `push + pop` cancel/do nothing.
+* lock free stack
+* exchanger(should also be lock free)
+
+Lock free exchanger (2 threads exchange data)
+* state info (pair of <value, state>)
+* need atomic operators to r/w pair atomically
+* value: data exchange
+* state: `EMPTY`, `WAITING`, `BUSY`
+    * `EMPTY` - ready to do the swap <br> CAS(pair, null to EMPTY, A to EMPTY)
+        * 该线程尝试将他的数据放入槽中，并调用compareAndSet将state设置为`WAITING`
+        * If successful:
+            * wait for the second thread to show up
+            * spin until we see the state as `BUSY`
+            * grab item & set state to `EMPTY`(no CAS required here)
+        * If we wait for too long (说明其他线程成功，重试)
+            * Try & give up
+            * 等待线程需要调用compareAndSet将槽重新设置为`EMPTY`(其他线程有可能试图通过把`WAITING`变成`BUSY`)
+                * If successful, we go & do push/pop
+                * Else complete the exchange    
+    * `WAITING` - one thread (second thread to show up)
+        * check the state &rarr; not `EMPTY`
+        * grab item
+        * try CAS(pair, A to `WAITING`, B to `BUSY`)
+            * If successful, we have done our part
+            * If fail(另一个线程把`WAITING`变成`EMPTY`并完成了交换)
+                * restart to resolve push/pop
+    * `BUSY` - two threads (third thread to show up &rarr; give up)
+        * second thread has completed the exchange
+        * grab value `B` 
+        * set state to `EMPTY`
+        
+* if exchange fail then do regular push() pop()
+
+Can associate an exchange for the state
+* push(x) is expected to exchange x for null
+* pop() is expected to exchange null for x
+* if successful, don't need to actually go through the state
+* in fact, we can associate an array of exchangers
+    * threads above random index to try for an exchange
+* try for a while, if a matching push/pop does not show up or a non-matching situation
+    * push/posh or pop/pop occurs, give up & resort to the lock free stack
+* Java's exchanger is based on an array of exchangers
+
+
+
+--- 
+## Lock Free Linked List
+* always has a head(H) and a tail(T)
+* singly linked
+* allow addition of item && remove item
+```java
+tryAdd(Node n, Node prev) {
+    n.next = prev.next;
+    return CAS(prev.next, n.next n);
+}
+
+tryRemove(Node n, Node prev) {
+    return CAS(pre.next, n, n.next);
+}
+```
+Sadly these naive methods do not work.
+Given a list H &rarr; `x` &rarr; `y` &rarr; `z` &rarr; T:
+
+1. If T0 tries to remove `x`, and T1 tries to add `w` between `x` and `y`, `w` will be lost.
+* T0: CAS(H.next, x, y) == true
+* T1: w.next = y -> CAS(x.next, y, w) == true
+* do delete `x`, but we fail to add `w`
+2. If T0 tries to remove `x` and T1 tries to remove `y`, both may succeed with `y` remaining in the list.
+* T0: CAS(H.next, x, y) == true
+* T1: CAS(x.next, y, z) == true
+* delete `x` succussfully, but fail delete `y`
+
+Various solutions exist
+* Valois - "auxiliary nodes"
+    * eg. H -> `.` -> `x` -> `.` -> `y` -> `.` -> `z` -> `.` -> T
+* Time Harris - lazy solution - mark node to be deleted then delete lazily
+    * <next, mark> 
+        * mark::true -> deleted
+        * mark::false -> not deleted
+---
+
+```java
+
+tryAdd(Node n, Node prev) {
+    next = prev.next;
+    // 确保prev没有被delete掉
+    return CAS(<prev.next, prev.mark>, 
+                <n.next, false>,
+                <n, false>);
+}
+    
+tryRemove(Node n, Node prev):
+    Node succ = n.next;
+    // mark first
+    if CAS(<n.next, mark>, <succ, false>, <succ, true>) {
+        // delete is ok to fail
+        CAS(<prev.next, mark>, <n, false>, <succ, false>)  
+        return true
+    }
+    return false
+```
+* eg.
+    1) T0: remove T1: add `w` after `x`
+
+Now we have deleted things left in the list, we need to clean up
+```Java
+// H->''->''->''->T
+find(int data) {
+    while(true) {
+        pred = H;
+        curr = pred.next;
+        while (curr != T) { // restart
+            succ = curr.next;
+            while (curr.marked) {
+                // 确保pred没有被mark
+                if (!CAS(<pred.next, marked>, <curr, false>, <succ, false>) {
+                    continue; // restart
+                }
+                curr = succ;
+                succ = curr.next;
+            }
+            if (curr.data == data) {
+                return curr;
+            }
+            pred = curr;
+            curr = succ;
+        }
+        return null
+    }
+}
+```
+
+
+# Lecture 16. 03.19 OpenMP && Other Programming Model
+### Lock Free
+* Lock Free algorithms are problematic in the way that references from deallocated objects may be resued unknowingly
+
+* Universal construction - almost any data structure can be made into a lock free version
+* Assume your data structure has a single entry point
+* Assume data stracture has some interface. We can make another interface that wraps the original to ensure that the invocations are sequential
+* 
+```java
+public interface seqObject() {
+    public Response apply(Invocation i);
+}
+// eg. In a stack, our invocation object would specify push(T data), pop()
+//      Response -> data returned from a pop operation
+```
+* Invoc’s -> modifies the Data Structure
+    * Record these as a log of data our Data Structure. changed from its initial state.
+    * ![Invocation](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/Invocation.png)
+    * Need threads to agree on the order of operations in the log &rarr; consensus. So all threads agree on which operation is next.
+```java
+Thread t: 
+    i = new Invocation(...);
+    do {
+        j = consensus(i);
+    } while (i != j)
+    // we are now the next operation
+    s = tail of the history
+    r = tail.state // initial state
+    do {
+        r = r.apply(s)  
+        // without modifying data, check the previous ops to update the state
+        s = s.next;
+    } while (s != i)
+    return r
+```
+
+One concern is that our consensus algorithm is one shot and not reusable. However, knowing that we can construct a new consensus object with each invocation, this is not an issue.
+
+## Open MP
+* Overlay language (C/C++, Fortran)
+* Not a language, but rather a set of directives (structured comments: #pragma) on top of an existing language that makes parallelism easy
+    * form of structual paralism
+    * basic fork/join
+* Define parallel region 
+    * Create a team of threads(a master, rest), execute the next statement in parallel, they join sequentially.
+    * #of threads -> can control. Can also be selected by the runtime system.
+
+```c
+// next block of statement will be executed in parallel
+    #pragma omp parallel 
+    {
+        // ...
+    }
+```
+* Working-sharing 
+    * Divide up a for loop among the thread.
+    * #pragma omp for
+        * Divide the for-loop among the threads.
+        * Assume/Restrict to ‘nice’ for-loop.
+    * eg.
+    ```c
+    #programa omp parallel
+    #programa omp for
+    for (int i = 0; i < 100; i++) {
+        A[i] = i;
+    }
+    
+    #programa omp parallel sections
+    #programa omp parallel section
+    // ...
+    // ...
+    #programa omp parallel section
+    // ...
+    // ...
+    
+    #programa omp single
+    // ...   only one thread execute
+    
+    #programa omp master
+    // ..    only the master thread execute
+    ```
+ 
+    
+---
+| | |
+| --- | --- |
+`#pragma omp parallel` | For single statements
+`#pragma omp for` | For loops; will be partitioned amongst the thread team
+`#pragma omp sections` | Another way of partitioning work
+`#pragma omp single` | Part within section that should only be executed by one thread
+`#pragme omp master` | Part that must be executed by a specified thread (master)
+
+```c
+#include <omp.h>
+#include <stdio.h>
+
+/* A simple example of using a few of the main constructs in openmp.
+ * To compile this (on linux):
+ *   gcc -o openmptest -fopenmp openmptest.c
+ */
+int main(int argc,char *argv[]) {
+    int i;
+    int t=8,n = 10;
+    if (argc>1) {
+        n = atoi(argv[1]);
+        printf("Using %d iterations\n",n);
+        if (argc>2) {
+            t = atoi(argv[2]);
+            printf("Using %d threads\n",t);
+        }
+    }
+    omp_set_num_threads(t);
+
+    /* A parallel for loop, iterations divided amongst the threads */
+#pragma omp parallel for
+    for (i=0;i<n;i++) {
+        printf("Iteration %d done by thread %d\n",
+               i,
+               omp_get_thread_num());
+    }
+
+    /* A parallel code, executed by all threads */
+#pragma omp parallel
+    printf("Hello from thread %d, nthreads %d\n",
+           omp_get_thread_num(),
+           omp_get_num_threads());
+
+    /* Two parallel sections doing different work */
+#pragma omp parallel
+#pragma omp sections
+    {
+#pragma omp section
+        { 
+            int j,k=0;
+            for (j=0;j<100000;j++)
+                k+=j;
+            printf("Section 1 from thread %d, nthreads %d, val=%d\n",
+                   omp_get_thread_num(),
+                   omp_get_num_threads(),k);
+        }
+#pragma omp section
+        { 
+            int j,k=0;
+            for (j=0;j<100000;j++)
+                k+=j;
+            printf("Section 2 from thread %d, nthreads %d, val=%d\n",
+                   omp_get_thread_num(),
+                   omp_get_num_threads(),k);
+        }
+    }
+}
+
+output:
+Iteration 2 done by thread 1
+Iteration 6 done by thread 4
+Iteration 3 done by thread 1
+Iteration 5 done by thread 3
+Iteration 7 done by thread 5
+Iteration 8 done by thread 6
+Iteration 9 done by thread 7
+Iteration 0 done by thread 0
+Iteration 1 done by thread 0
+Iteration 4 done by thread 2
+Hello from thread 4, nthreads 8
+Hello from thread 3, nthreads 8
+Hello from thread 5, nthreads 8
+Hello from thread 7, nthreads 8
+Hello from thread 1, nthreads 8
+Hello from thread 6, nthreads 8
+Hello from thread 2, nthreads 8
+Hello from thread 0, nthreads 8
+Section 1 from thread 4, nthreads 8, val=704982704
+Section 2 from thread 5, nthreads 8, val=704982704
+```
+
+## Data Model
+
+Threads share static, heap data
+
+* `shared(x, y, z)`
+* `private(x, y, z)` - each thread has its own copy; uninitialized, not persistent
+* `threadPrivate(x, y, z)` - like private, but persistent & presumably initialized
+* `firstPrivate` - var is initialized from the present scope
+* `lastPrivate` - value is given back to the parent
+* `reduction(opList)` - opList can be + (init at 0) or * (init at 1)
+
+---
+Synchronization
+* single & master critical
+* barrier
+* atomic operation
+    * Read: =x
+    * write: x =
+    * Update: x++
+    * Capture: =x++
+* flush - mian maechanism for synchronzing cache & memory
+    * commits any pending writes
+    * invalidates cached copies
+    * rules
+        * if intersection of 2 flush sets is non-empty, flushes must be seen in same order by everyone
+        * if thread reads, writes, modifies in flush set, program order is respected
+        * atomic ops have implicit flush of the vars involved
+    * Memory model
+        * weak model (见iPad示意图)
+        * flush(x, y, z)
+            * Send x, y and z back to main memory(no longer in our working memory)
+            * If 2 flush operations has intersecting sets of variables, then they must be seen in the same order.
+            * If no intersection, no guarantee.
+            * Within a single thread, flush(x) —> = x is an order too.(flush and the use of a variable.) or x = , flush(x) (use first, then flush)
+            * Atomic -> implies an immediate flush of the var involved.
+        * 
+        ```Java
+        flag0 = flag1 = 1;
+        flag0 = 1;
+        if (flag1 == 0) {
+            enter C.S
+        }
+        ```
+        * 
+        ```Java
+        T0:                         T1:
+        atomic(flag0 = 1);          atomic(flag1 = 1);
+        flush(flag0);               flush(flag1);
+        
+        flush(flag1);               flush(flag0);
+        atomic(tmp = false);        atomic(tmp = false);
+        if (tmp == 0) {             if (tmp == 0) {
+            enter C.S.                  enter C.S.
+        }                           }
+        ```
+
+ 
+# Lecture 17. 03.21 Task Models
+## PGAS
+* partitioned global address space(PGAS) is a parallel programming model
+* It assumes a global memory address space that is logically partitioned and a portion of it is local to each process, thread, or processing element.
+
+* Various parallel models
+   * Category
+        * Chapel
+        * Titanium
+        * UPC++
+        * Shared memory
+        * Message passing
+        * SIMD/SPSMD
+            * Data parallel
+    * Partitioned Global Address Space
+        * Locality of computation is important
+### Basic mechanism
+* async
+* a void explicit thread, a async specifies a statement can be execute asynchronous
+* Nested asyncs 
+* ![asyncGraph](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/asyncGraph.png)
+```Java
+x = 0;
+async {
+    x = 1;
+    async {
+        x = 2;
+    }
+    x = 3;
+    async {
+        x = 4;
+    }
+    x = 5;
+}
+x = 6;
+
+
+for (int i = 0; i < 100; i++) {
+    async {
+        a[i] = a[i] + 1;
+    }
+    // any of our updates may or may not be done 不一定已经完成
+}
+```
+* finish
+    * finish S<sub>i</sub> 
+        * all asyncs in S<sub>i</sub> must be finished, we cannot go beyond this
+```java
+finish {
+    for (int i = 0; i < 100; i++) {
+        async {
+            a[i] = a[i] + 1;
+        }
+    }
+}
+```
+## Place / Location
+* location
+    * data and our asyncs live in different logged space
+    * send computation to the data
+    * data in the same area, more efficient
+---
+## Tasks
+* rather than specifically allocating work to thread & coordinate the threads
+* eg. make multiply 矩阵乘法
+    * create N * M tasks, one each to compute each cell
+    * create a pool of tasks && use some #threads to execute
+        * Whenever a thread is done, grab another task
+        * Creating a "thread pool"
+            * some #id threads
+            * give flush
+
+---
+在Java中，线程池被称作执行者服务(ExecutorService)。它为我们提供了提交任务、等待已提交任务完成以及撤销未完成任务的能力。
+没有返回值的task被表示成Runnable对象，由run()来实现。
+返回值类型为T的任务则被表示为Callable<T>对象，由call()来实现
+* Java gives you various thread pool construct
+    * Executor
+        * lanuch a new Thread to execute a task  
+    * DirectExecutor
+        * single thread execution, pass a Runnable(more complex)
+    * AsyncExecutor
+        * creates a new thread to execute a Runnable
+
+## ExecutorService
+* Callable interface instead of Runnable, return data with an Executor Service
+* Pass in (submit) a Callable and execute it.
+
+##ThreadPoolExecutor
+* min/max #threads
+* passed in jobs 
+* fixed #threads
+
+```Java
+c = new Runnable();
+Future s = ex.submit(c); 
+// how to get the return value without blocking
+.get()
+
+Future f = new Future(task); // task may or may not execute in parallel
+f.get(); // block until all results are ready
+
+public class Future {
+    Callable c;
+    public Future (Callable c) {
+        this.c = c;
+    }
+    
+    public object get() {
+        return c.call();
+    }
+}
+```
+
+## DAG 无环有向图
+* ![DAG](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/DAG.png)
+* Performance depends on the order in which we choose text
+* Need a test schedule
+* Criticla Path: longest chain of dependencies
+
+# Lecture 18. 03.26 Transaction Memory
+## Last Time
+* PGAS
+    * X10
+        * async
+        * finish
+* Task model
+    * feed to a thread pool
+* Task dependency
+    * DAG
+    * send tasks with no predecessors to threads, once finish, we delete the task.
+    * Which tasks we give to threads matter schedule is important
+    * Greedy scheduler
+        * choose avaliable tasks without any look ahead.
+    T1 -> time to execute all nodes (seq.)
+    T(infinity) -> infinity thread time
+    * The length of the longest path(critical path) is a lower bound on T(infinity)
+    * 
+
+## Greedy Schedule performance
+* In any particular step, we have two possible outcome
+    * complete step -> more tasks avaliable than threads(choose subset of avaliable tasks)
+    * incomplete step -> fewer tasks than threads
+
+## Graham & Brent therom
+* Let Tp the time with p threads
+* Tp <= T1/p + T(infinity)
+    * we connot have more than T1/p complete step
+    * we connot have more than the length of the critical path
+* Geedy scheduler is always within 2 * potimize schedule 是最优解的两倍
+* easy to show 
+    * optimal time for p is Tp*
+    * Tp >= max(T1/p, T(infinity))
+    * T1/p <= max(T1/p, T(infinity))
+    * T(infinity) <= max(T1/p, T(infinity))
+    * Tp <= T1/p + T(infinity) <= 2 * max(T1/p, T(infinity))  <= 2 * Tp*
+
+## Transcational Memory（事务内存）
+* Locking is hard to do
+* main Goal -> mutual exclusion
+* much easier
+    * atomic -> ensure atomicity -> no explicit locks
+* *transcation*  是单个线程所执行的一系列操作步骤
+* in transcation programming    
+    * atomic -> act like transcation
+    * How do we do this?
+        * pessimistic version
+        * optimistic version
+
+### pessimistic version
+* 
+    ```java
+        atomic {        synchronized(global) {
+            //     =>       //
+        }               }
+    ```
+    * make all atomic blocks mutually exclusive
+    * weakness
+        * eg.
+         ```java
+                atomic {
+                    x = 1;
+                    b = y;
+                    c = 3;
+                }
+                
+                atomic {
+                    x = 2;
+                    a = x;
+                    c = y;
+                }
+         ```
+        * use a single global lock(assume no data-race)
+            * a single global lock does not allow thread to be done in parallel
+            * more fine-grain
+                * find all data accessed in an atomic block
+                *
+                ```
+                atomic {        Arw u.lock()
+                    A;      =>      A;
+                }               Arw u.unlock()
+                ```
+                * this way independent atomic section can be done in parallel
+                    * some issue
+                        * find Arw
+                            ```java
+                            atomic {
+                                while (p != null) {
+                                    p.data = 1;
+                                    p = p.next;
+                                }
+                            }
+                            ```
+                        * data accessed among not be obvious ahead of time, can also turn into a lot of locking & unlocking
+                    * need to avoid dead lock
+                        * tryLock -> exception
+                        * data
+### optimistic version
+* avoid locking altogether, rely on contention being race(usually)
+* no locking overhead
+* still need correct execution
+    * execute optimistically (with no locking)
+    * need to detect if any data is modified while we execute our transcation
+        * eg.
+        ```Java
+        atomic {
+            x = 1;
+            y = x;
+            z = x + y;
+        }
+        ```
+         * if any Reads or Write x, y, z -> not atomic
+         * we need to fix it
+            * we could keep an undo-log
+            * undo any partial execution and our atomic section & retry section
+            * if all data inside data is untouched effectively atomic
+               * better if we can avoid visibility of our transcational writes until the transcations succed
+               * use isolation
+                  * each atomic section, 
+                     * read buffer(know what we read)
+                     * write buffer(we don't write into main memory within a transcation)
+                     * no-conflit
+                        * end of the transcations, commit the write buffer
+                     * conflict
+                        * throw away and restart
+## Language Issue
+* nested transcation
+* atomic solves atomically/ ME
+    * wait/ notify
+    * allow you to retry
+                
+                
+# Lecture 19. 03.28 Message Passing and Process Algebra
+```java
+produce() {
+    atomic {
+        if (g.full()) {
+            retry; // 与wait()方法或者显示的条件变量不同，retry并不是简单地让出它自己，从而丢失唤醒故障
+            q.add(data);
+        }
+    }
+}
+```
+
+## Hardware Support
+* IBM's BlueGen/Q
+* Intel "Haswell"
+* 2 subsystem
+    * HLE
+        * Hardware lock elision
+        * moving away from locking
+    * RTM
+        * Restricted transcation memory
+        * TM
+
+### HLE
+* **XACQUIRE** prefix
+    * Lock
+    * we don't actually acquire the lock
+        * **XACQUIRELOCK**
+    * but do note the memory address locked
+    * execute subsequent code
+    * if no one conflicts with the transcation code (lock variable)
+        * success!
+        * avoid lock overhead
+* **XRELEASE**
+    * mark the end transcation
+    * if the transcation fails
+    * we retry, but ignore **XACQUIRE**
+    * N.B. a little "stronger" than locking
+* **XACQUIRELOCK**
+    * 
+    ```Java
+    a = y;
+    b = x; <------------ x = 3 // transcation fail
+    c = a;
+    XREALEASE
+    unlock()
+    ```
+    
+## RTM 
+* 
+    * offset -> failure handler: receives a bit-code, different bits indicate why the transcation failed.
+    *  transcation can fail
+        * XABORT
+        * conflict
+        * buffer overflow
+        * special instruction
+            * occupied
+            * pause
+        * interrupts, task shopping
+    * 见iPad
+```
+XBEGIN<offset> 
+    XABORT<reason>
+    XTEST
+XEND
+```
+
+
+### Thread-Level Specialist(TLS)
+* atomic parallel program
+    * sequential program ==TLS==> parallel program
+    * ![TLS](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/TLS.png)
+        * notice: spec thread executes in the future, gets input state may not be correct
+            * avoid this code being visible
+            * at the join point, we test if its input state was correct
+            * code for `C` is executed like a transcation
+                * Read and Write buffer
+                * Write buffer isolate `C` until no commit a discard it
+                * Read buffer to unify our acted input state maintain the indicate input state
+
+### Message Passing(M.P.)
+* So far, it's been all shared memory. Instead of sharing data, in a M.P. system
+    * send & receive data
+* 2 forms of message Passing
+    * Asynchronous message passing
+        * receive data -> blocked until data is ready
+            * d = receive()
+        * sending data
+            * sending operation is non-blocking
+            * eg. post office
+            * reliable ordering
+    * Synchronous message passing
+        * receive -> block
+        * send -> block
+    * Which is more expressive?
+        * Synchronous message passing gives us more 
+        * eg.
+            * Tp: ---------send(Q, 23)
+            * Tq: x = 0; x = receive(p)
+            * Asynchronous
+                * After the send, what does Tp know about Tq?
+                    * Q.x is either 0 or 23
+            * Synchronous, 
+                * After the send, what does Tp have about Tq?
+                    * Q.x is 23
+    * Common knowledge
+        * get from synchronous massage passing
+
+## Process Algebra
+* abstract, simple system for describling concurrent program
+* "algebra formalism" to understand & compare concurrent program
+* lots of formalism
+    * C.S.P. communication Sequential Processer
+    * C.C.S. Calculus & Concurrent System
+    * Meije
+    * ACP Algebra of concurrent proceed
+* main function
+    * interleaving
+    * synchronous message passing (asynchronous message passing)
+    * theoretical -> process equivalent
+    * turned into  real language
+
+## C.S.P
+* old with lots variants
+    * syntax has changed
+* build up process expression
+    * parallel
+    * message-passing (synchronous)
+* P: HALT  // skip
+    * name: actual definition
+    * process communication: send & receive
+    * eg.
+        * P::Q!x  // P is a process send e to Q
+        * Q::P?x  // Q is a process that receive from P & store in x
+
+    
+# Lecture 20. 04/02 Process Algebra
+### Two Basic Operations
+* P || Q parallel composition
+    * eg. P::Q!3||Q::P?3  P给Q发送，Q从P接受
+* P; Q sequential composition
+    * eg. a single-cell buffer  `A` -> `C` -> `B`
+        1) A::C!x
+            B::C?x
+        2) A::C!x
+            C::A?y; B!y
+            B::C?x
+
+### Guards commands
+* execute -> C
+* Guard commands only execute if the event can happen, then we can let the event happen & continue with the command
+* Guard commands are most useful when we combine with **choice**.
+    * choice - if we want to choose one event or another to respond to
+    * eg. 
+        * A::B?x
+        * A::C?x
+        * A同时想receive from B 和 C
+
+### External Choice
+* eg.为什么要用choice
+    * A::B?x -> Q1
+    * A::C?x -> Q2
+    * `stuck!!` A 不知道要接受哪一个 (non-determine)
+* eg. [] 在一个process加一个方块
+    * A::B?x -> Q1 []
+    * A::C?x -> Q2
+    * A||B::A!3 &rArr; Q1 &rArr; Q1||&emptyset;
+    * A||C::A!7 &rArr; Q2 &rArr; Q2||&emptyset;
+* eg. 
+    * Vending Machine
+        * V::inslot? $1.00 &rArr; make coffe []
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inslot? $2.00 &rArr; make tea
+    * Iteration
+        * V::*[ inslot? $1.00 &rArr; make coffe []
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inslot? $1.00 &rArr; make coffe ]
+        * `*` means repetition
+        * in many C.S.P (), we use recursion instead
+        * `V`::*inslot? $1.00 &rArr; make coffe;`V` []
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inslot? $1.00 &rArr; make coffe;`V`
+            * V || inslot::V!$1.00
+        * A::B?x -> Q1 []
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;B?x -> Q2
+            * external choice -> choice is driven by the external environment
+            * A||B::A!3
+                * if the choice are the same, we get non-deterministic result
+
+### Internal Choice
+* g1->C1 (internal mark)
+* g2->C2 (internal mark)
+* g3->C3 (internal mark)
+* with internal choice A  B, our process can commit to one of the option anytime, irrespective of its outer context
+* eg.
+    * V::inslot?$1.00->coffee[]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inslot?$2.00->tea
+    * V'||inslot::V!$1.00;x => coffee||x
+        * might get stuck
+    * V||inslot::V!$2.00;x => tea||x
+    * V'::inslot?$1.00->coffee (internal mark)
+        inslot?$2.00->tea
+---
+
+## Multi Buffer
+### Ordered Buffer
+* `Producer` -> `Buffer` -> `Consumer`
+    * P::B!produce() -> P
+    * C::B?x;consume(x);c
+    * B::P?x->C!x;B
+    * P->B1->B2->C
+    * P::B1!produce();P
+    * C::B2?x;consume(x);C
+    * B1::P?x->B2!x;B1
+    * B2::B1?x->C!x;B2
+* This gives an ordered buffer
+
+### Unordered Buffer
+* ![UnorderedBuffer](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/Lecture20/UnorderedBuffer.png)
+* B.entry::P?x;
+* B.entry::B1!x -> B.entry[]
+* B.entry::B2!x -> B.entry[]
+* B.entry::B3!x -> B.entry[]
+* B1::B.entry?x -> B.x!x; B1
+---
+CSP was the basis for OCCAM, common is between processor via channels
+
+## Java CSP
+* Identity
+    * ![Identity](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/Lecture20/Identity.png)
+    * Identity(in, out)::In?x->Out!x -> Identity(in, out)
+* Increment
+    * ![Increment](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/Lecture20/Increment.png)
+    * Inc(in, out)::identity?x->Out!(x + 1) -> Inc(in, out)
+* Add
+    * +(in1, in2, out)::in1?x -> in2?y -> out!(x + y)
+    * +(in1, in2, out)||P::in1!3 -> in2?7 -> 
+    +(in1, in2, out)||P::in2!7 -> in1!3 ->
+    +(in1, in2, out)::
+        in1?x -> in2?y -> out!(x + y)[]
+        in2?y -> in1?x -> out!(x + y)
+* Prefix
+    * ![Prefix](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/Lecture20/Prefix.png)
+    * Prefix(in, out)::out!&emptyset->Identity(in, out)
+* 应用
+   * ![Application](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/Lecture20/Application.png)
+
+
+# Lecture21. 04.04 Dataflow
+### Last Time
+* C.S.P.
+    * Synchronized communication
+    * process
+    * Guarded choice
+    * External choice
+    * Communication via buffers
+        * Via ‘channels’
+
+## Dataflow
+* static & dynamic
+* Functional programming
+    * Functions are side-effect free
+        * e.g.:  h(f(x, y), g(x, z), y)
+            * ![Function](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/Lecture21/Function.png)
+        * Suggests a strategy
+            * Data flows along the arrows(tokens)
+            * Process of firing(fire):
+                * Our functions wait for data tokens on their input channels
+                * Then compute something
+                * Emit data tokens on output channels
+## static dataflow
+* Functions as ‘actors’
+* Channels(directed) that connect actors&along which data flows.
+* Channels are FIFO and infinite capacity
+* Homogeneous actors
+    * Fire:
+        * Consume exactly 1 token on each input and emit one token on each output.
+* Regular actors
+    * Fire:
+        * Input lines I1, I2, …, fixed number of tokens for each Ii that are consumed.
+        * Output lines, O1, O2, …, fixed number of tokens for each Oi that are emitted.
+        * For static overflow, restricted to regular actors.
+            * ![Switch](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/Lecture21/Switch.png)
+        * (T/F, control, data)
+            * This is not regular, always consumes 1 token from each input, but does not emit the same number of tokens on output lines.
+            * ![Merge](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/Lecture21/Merge.png)
+        * (bool, control, T, F, merge)
+            * This is not regular as well, and the figure shown cannot fire at all since control input is F and there is no data in F branch.
+* static dataflow = regular actors + switch + merge
+* More in if-schema
+    * if(…) f(x);
+    * else  g(x);
+        * ![IfSchema](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/Lecture21/IfSchema.png)
+        * (…: the boolean input shown above, x, switch, T, F, merge)
+        * e.g.: a loop up to 10
+            * ![LoopTo10](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/Lecture21/LoopTo10.png)
+            * This network is reusable.
+            * Compute iterations of a function
+                * i.e.: we want f^10(x)
+                * ![f^10(x)](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/Lecture21/f^10(x).png)
+                * (merge, merge, switch)
+            * Can we bind the capacity of our channels and still allow the network to execute.
+            * We can figure capacities:
+                * Only regular actors(*)
+                * (Obstructed schemata)
+                * E.g.: 
+                    * ![Capacity](https://raw.githubusercontent.com/zhuangzhuang131419/McGill/master/COMP409/Lecture21/Capacity.png)  
+                    * What capacity do we need for each channel?
+                        * Every time a fires -> 2 tokens along line(iii)
+                        * Every time b fires -> consume 3 tokens on line(iii)
+                    * Equation for each line
+                        * (iii). 2a = 3b
+                        * (i).    a = c
+                        * (ii).  3b = 2c
+                        * (iv).  3b = 2a
+                    * Different solution
+                        * Trivial solution
+                            * a = b = c = 0
+                        * At least one non-trivial solution
+                            * b = 2, a = c = 3
+                            * We can have multiples solutions like this
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
