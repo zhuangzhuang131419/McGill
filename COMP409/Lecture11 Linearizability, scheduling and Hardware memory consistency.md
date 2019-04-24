@@ -1,4 +1,4 @@
-# Lecture 11. 2018/02/19
+# Lecture 11. 02.19 Linearizability, scheduling and Hardware memory consistency
 ## Processes and Synchronization:  Scheduling Policies and Fairness
 [Reference Website](http://www.it.uom.gr/teaching/distrubutedSite/cisumassd/chap02/chap02_20.html)
 * A `scheduling policy` decides which of the eligible atomic actions will be excuted next
