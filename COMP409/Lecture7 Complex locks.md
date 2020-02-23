@@ -62,8 +62,8 @@ Semaphore
     // atomic
     while (s == 0) {
         sleep();
-        s--;
     }
+    s--;
     ```
 * V(s) "up" (all atomic)
     ```java
