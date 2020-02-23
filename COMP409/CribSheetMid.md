@@ -1160,6 +1160,7 @@ Readers:
             notify(okWrite);
         }
     }
+    UnLock(e);
     
 Writer:
     Lock(e);
@@ -1168,7 +1169,7 @@ Writer:
         wait(e, okWrite);
     }
     else {
-        ww++
+        nw++
     }
     UnLock(e);
     // writes on DB
@@ -1253,7 +1254,6 @@ If philosopher 1 eats, and philosopher 2 attempts to eat, philosopher 2 will hol
 
 4.Randomise Lock
 ```java
-P(lock)
 if (rand() % 2 == 0) {
     P(c[i]);
     P(c[(i + 1) % 5]);
@@ -1261,7 +1261,6 @@ if (rand() % 2 == 0) {
     P(c[(i + 1) % 5]);
     P(c[i]);
 }
-V(lock)
 eat();
 V(c[i]);
 V(c[(i + 1) % 5];
